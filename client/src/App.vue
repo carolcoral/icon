@@ -1,5 +1,5 @@
-<template>
-  <div class="min-h-screen bg-gray-50">
+n'g<template>
+  <div class="min-h-screen bg-gray-50 pb-32">
     <!-- 头部导航 -->
     <header class="bg-white shadow-sm border-b">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -43,15 +43,20 @@
 
             <!-- 搜索框 -->
             <div class="w-full md:w-80">
-              <label class="block text-sm font-medium text-gray-700 mb-2">搜索图标</label>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                搜索图标
+                <span class="text-xs text-gray-500 ml-1">(支持模糊搜索)</span>
+              </label>
               <div class="relative">
                 <input 
+                  ref="searchInput"
                   v-model="searchKeyword" 
                   @input="handleSearchInput"
                   @keyup.enter="handleSearch"
+                  @keyup.esc="clearSearch"
                   type="text" 
-                  placeholder="输入图标名称进行搜索..."
-                  class="input-field pl-10 pr-10"
+                  placeholder="输入图标名称进行搜索... (按 / 聚焦)"
+                  class="input-field pl-10 pr-20"
                 >
                 <!-- 搜索图标 -->
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -59,13 +64,37 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                   </svg>
                 </div>
-                <!-- 清除按钮 -->
-                <div v-if="searchKeyword" class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                  <button @click="clearSearch" class="text-gray-400 hover:text-gray-600">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                
+                <!-- 右侧按钮组 -->
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 space-x-1">
+                  <!-- 搜索状态指示器 -->
+                  <div v-if="searchKeyword && searchTimeout" class="animate-spin rounded-full h-4 w-4 border-2 border-primary-500 border-t-transparent"></div>
+                  
+                  <!-- 清除按钮 -->
+                  <button v-if="searchKeyword" 
+                          @click="clearSearch" 
+                          class="text-gray-400 hover:text-gray-600 p-1 rounded transition-colors duration-200"
+                          title="清除搜索 (Esc)">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                   </button>
+                  
+                  <!-- 快捷键提示 -->
+                  <div class="hidden sm:block text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">
+                    /
+                  </div>
+                </div>
+              </div>
+              
+              <!-- 搜索建议 -->
+              <div v-if="searchKeyword && searchSuggestions.length > 0" 
+                   class="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                <div v-for="suggestion in searchSuggestions" 
+                     :key="suggestion"
+                     @click="selectSuggestion(suggestion)"
+                     class="px-4 py-2 hover:bg-gray-50 cursor-pointer text-sm border-b border-gray-100 last:border-b-0">
+                  <span class="text-gray-900">{{ suggestion }}</span>
                 </div>
               </div>
             </div>
@@ -97,30 +126,68 @@
 
       <!-- 图片网格 -->
       <div class="mb-8">
-        <div v-if="loading" class="flex justify-center items-center h-64">
-          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+        <!-- 加载状态 - 骨架屏 -->
+        <div v-if="loading" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+          <div v-for="n in pageSize" :key="n" class="card p-4 animate-pulse">
+            <div class="aspect-square bg-gray-200 rounded-lg mb-3"></div>
+            <div class="space-y-2">
+              <div class="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
+              <div class="h-3 bg-gray-200 rounded w-1/2 mx-auto"></div>
+            </div>
+          </div>
         </div>
         
-        <div v-else-if="images.length === 0" class="text-center py-12">
-          <div class="text-gray-400 text-lg">暂无图标</div>
+        <!-- 空状态 -->
+        <div v-else-if="images.length === 0" class="text-center py-16">
+          <div class="mx-auto w-24 h-24 mb-4 text-gray-300">
+            <svg fill="currentColor" viewBox="0 0 24 24">
+              <path d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm2 6a2 2 0 104 0 2 2 0 00-4 0zm6 0a2 2 0 104 0 2 2 0 00-4 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-medium text-gray-900 mb-2">暂无图标</h3>
+          <p class="text-gray-500">当前分类下没有找到图标文件</p>
         </div>
         
-        <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-          <div v-for="image in images" 
+        <!-- 图片网格 -->
+        <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4 fade-in">
+          <div v-for="(image, index) in images" 
                :key="image.path" 
-               class="card p-4 hover:shadow-lg transition-shadow duration-200 cursor-pointer group"
+               class="card p-3 cursor-pointer group slide-up"
+               :style="{ animationDelay: `${index * 50}ms` }"
                @click="selectImage(image)">
-            <div class="aspect-square flex items-center justify-center bg-gray-50 rounded-lg mb-3 overflow-hidden">
+            <div class="aspect-square flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg mb-3 overflow-hidden relative">
+              <!-- 加载占位符 -->
+              <div v-if="!imageLoaded[image.path]" class="absolute inset-0 flex items-center justify-center">
+                <div class="animate-spin rounded-full h-6 w-6 border-2 border-primary-500 border-t-transparent"></div>
+              </div>
+              
+              <!-- 图片 -->
               <img :src="image.url" 
                    :alt="image.name" 
-                   class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-200"
+                   class="max-w-full max-h-full object-contain card-image lazy-image"
+                   :class="{ 'loaded': imageLoaded[image.path], 'loading': !imageLoaded[image.path] }"
+                   @load="handleImageLoad(image.path)"
                    @error="handleImageError">
+              
+              <!-- 悬停遮罩 -->
+              <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-200 rounded-lg flex items-center justify-center">
+                <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-white rounded-full p-2 shadow-lg">
+                  <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                  </svg>
+                </div>
+              </div>
             </div>
-            <div class="text-center">
+            
+            <div class="text-center space-y-1">
               <p class="text-sm font-medium text-gray-900 truncate" :title="image.name">
-                {{ image.name }}
+                {{ getDisplayName(image.name) }}
               </p>
-              <p class="text-xs text-gray-500 mt-1">{{ image.category }}</p>
+              <div class="flex items-center justify-center space-x-1">
+                <span class="inline-block w-2 h-2 rounded-full bg-primary-400"></span>
+                <p class="text-xs text-gray-500">{{ image.category }}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -162,62 +229,113 @@
     </main>
 
     <!-- 图片预览模态框 -->
-    <div v-if="selectedImage" 
-         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-         @click="closeModal">
-      <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-auto" @click.stop>
-        <div class="p-6">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold">{{ selectedImage.name }}</h3>
-            <button @click="closeModal" class="text-gray-400 hover:text-gray-600">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <Transition name="modal" appear>
+      <div v-if="selectedImage" 
+           class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+           @click="closeModal">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl animate-bounce-in" @click.stop>
+          <!-- 头部 -->
+          <div class="flex justify-between items-center p-6 border-b border-gray-100">
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">{{ getDisplayName(selectedImage.name) }}</h3>
+              <p class="text-sm text-gray-500 mt-1">{{ selectedImage.category }} 分类</p>
+            </div>
+            <button @click="closeModal" 
+                    class="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200">
+              <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
               </svg>
             </button>
           </div>
           
-          <div class="text-center mb-4">
-            <img :src="selectedImage.url" 
-                 :alt="selectedImage.name" 
-                 class="max-w-full max-h-96 mx-auto object-contain">
+          <!-- 图片展示区域 -->
+          <div class="p-6 text-center bg-gradient-to-br from-gray-50 to-gray-100">
+            <div class="relative inline-block">
+              <img :src="selectedImage.url" 
+                   :alt="selectedImage.name" 
+                   class="max-w-full max-h-96 mx-auto object-contain rounded-lg shadow-lg">
+              
+              <!-- 图片尺寸信息 -->
+              <div class="absolute top-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+                {{ selectedImage.name.split('.').pop().toUpperCase() }}
+              </div>
+            </div>
           </div>
           
-          <div class="space-y-2 text-sm">
-            <p><span class="font-medium">文件名:</span> {{ selectedImage.name }}</p>
-            <p><span class="font-medium">分类:</span> {{ selectedImage.category }}</p>
-            <p><span class="font-medium">访问链接:</span> 
-              <code class="bg-gray-100 px-2 py-1 rounded text-xs">{{ getImageAccessUrl(selectedImage) }}</code>
-            </p>
-          </div>
-          
-          <div class="mt-4 flex justify-end space-x-2">
-            <button @click="copyImageUrl(selectedImage)" class="btn-secondary">
-              复制链接
-            </button>
-            <a :href="selectedImage.url" download class="btn-primary">
-              下载图片
-            </a>
+          <!-- 详细信息 -->
+          <div class="p-6 space-y-4 bg-white">
+            <div class="space-y-3 text-sm">
+              <!-- 文件名和分类在同一行 -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="font-medium text-gray-700">文件名:</span>
+                  <span class="text-gray-900">{{ selectedImage.name }}</span>
+                </div>
+                
+                <div class="flex items-center space-x-2">
+                  <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                  </svg>
+                  <span class="font-medium text-gray-700">分类:</span>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                    {{ selectedImage.category }}
+                  </span>
+                </div>
+              </div>
+              
+              <!-- 访问链接独立一行 -->
+              <div class="flex items-center space-x-2">
+                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd" />
+                </svg>
+                <span class="font-medium text-gray-700">访问链接:</span>
+                <code class="bg-gray-100 px-3 py-1 rounded text-xs flex-1 truncate" 
+                      style="max-width: 80%;" 
+                      :title="getImageAccessUrl(selectedImage)">
+                  {{ getImageAccessUrl(selectedImage) }}
+                </code>
+              </div>
+            </div>
+            
+            <!-- 操作按钮 -->
+            <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t border-gray-100">
+              <button @click="copyImageUrl(selectedImage)" 
+                      class="btn-secondary flex items-center justify-center space-x-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+                <span>复制链接</span>
+              </button>
+              
+              <a :href="selectedImage.url" 
+                 download 
+                 class="btn-primary flex items-center justify-center space-x-2 no-underline">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span>下载图片</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Transition>
 
     <!-- 页脚 -->
-    <footer class="bg-white border-t mt-16">
+    <footer class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="text-center space-y-2">
           <p class="text-sm text-gray-600">{{ siteConfig.copyright }}</p>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
             <p v-if="siteConfig.icp" class="text-xs text-gray-500 flex items-center">
-              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm2 6a2 2 0 104 0 2 2 0 00-4 0zm6 0a2 2 0 104 0 2 2 0 00-4 0z" clip-rule="evenodd"></path>
-              </svg>
+              <img src="/assets/images/other/icp-icon.png" alt="ICP" class="w-4 h-4 mr-1" />
               {{ siteConfig.icp }}
             </p>
             <p v-if="siteConfig.publicSecurity" class="text-xs text-gray-500 flex items-center">
-              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-              </svg>
+              <img src="/assets/images/other/gongan-icon.png" alt="公网安备" class="w-4 h-4 mr-1" />
               {{ siteConfig.publicSecurity }}
             </p>
           </div>
@@ -271,7 +389,7 @@
 </template>
 
 <script>
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted, onUnmounted, computed } from 'vue'
 import axios from 'axios'
 
 export default {
@@ -289,10 +407,13 @@ export default {
     const totalImages = ref(0)
     const totalPages = ref(0)
     const selectedImage = ref(null)
+    const imageLoaded = ref({}) // 图片加载状态
+    const searchSuggestions = ref([]) // 搜索建议
+    const searchInput = ref(null) // 搜索输入框引用
 
     // 站点配置
     const siteConfig = reactive({
-      title: 'Online Icon',
+      title: '在线图标库',
       logo: 'https://api.minio.xindu.site/blog.cnkj.site/backup/logo-zark.png',
       navigation: [
         { name: '首页', href: 'https://xindu.site' },
@@ -354,6 +475,8 @@ export default {
 
     const fetchImages = async () => {
       loading.value = true
+      resetImageLoadedState() // 重置图片加载状态
+      
       try {
         const params = {
           category: selectedCategory.value,
@@ -373,6 +496,7 @@ export default {
         totalPages.value = response.data.totalPages
       } catch (error) {
         console.error('获取图片失败:', error)
+        showNotification('获取图片失败，请稍后重试', 'error')
       } finally {
         loading.value = false
       }
@@ -395,21 +519,80 @@ export default {
         clearTimeout(searchTimeout.value)
       }
       
-      // 设置防抖，500ms后执行搜索
+      // 生成搜索建议
+      generateSearchSuggestions()
+      
+      // 设置防抖，300ms后执行搜索
       searchTimeout.value = setTimeout(() => {
         handleSearch()
-      }, 500)
+        searchTimeout.value = null
+      }, 300)
     }
 
     const handleSearch = () => {
       currentPage.value = 1
+      searchSuggestions.value = []
       fetchImages()
     }
 
     const clearSearch = () => {
       searchKeyword.value = ''
+      searchSuggestions.value = []
       currentPage.value = 1
       fetchImages()
+    }
+
+    const selectSuggestion = (suggestion) => {
+      searchKeyword.value = suggestion
+      searchSuggestions.value = []
+      handleSearch()
+    }
+
+    // 生成搜索建议
+    const generateSearchSuggestions = () => {
+      if (!searchKeyword.value.trim()) {
+        searchSuggestions.value = []
+        return
+      }
+      
+      const keyword = searchKeyword.value.toLowerCase()
+      const suggestions = new Set()
+      
+      // 基于当前图片生成建议
+      images.value.forEach(image => {
+        const name = image.name.toLowerCase()
+        if (name.includes(keyword) && name !== keyword) {
+          suggestions.add(image.name.replace(/\.[^/.]+$/, '')) // 去掉扩展名
+        }
+      })
+      
+      // 常见搜索词建议
+      const commonTerms = ['github', 'docker', 'icon', 'logo', 'badge', 'button', 'arrow', 'star']
+      commonTerms.forEach(term => {
+        if (term.includes(keyword) && term !== keyword) {
+          suggestions.add(term)
+        }
+      })
+      
+      searchSuggestions.value = Array.from(suggestions).slice(0, 5)
+    }
+
+    // 键盘快捷键支持
+    const handleKeyboardShortcuts = (event) => {
+      // 按 / 键聚焦搜索框
+      if (event.key === '/' && !event.ctrlKey && !event.metaKey) {
+        event.preventDefault()
+        searchInput.value?.focus()
+      }
+      
+      // 按 Escape 键关闭模态框或清除搜索
+      if (event.key === 'Escape') {
+        if (selectedImage.value) {
+          closeModal()
+        } else if (searchKeyword.value) {
+          clearSearch()
+        }
+      }
     }
 
     const getSelectedCategoryLabel = () => {
@@ -471,10 +654,67 @@ export default {
       event.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yMCAyMEg0NFY0NEgyMFYyMFoiIHN0cm9rZT0iIzlDQTNBRiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTI4IDI4TDM2IDM2TDQwIDMyIiBzdHJva2U9IiM5Q0EzQUYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo='
     }
 
+    // 处理图片加载完成
+    const handleImageLoad = (imagePath) => {
+      imageLoaded.value[imagePath] = true
+    }
+
+    // 获取显示名称（去掉扩展名）
+    const getDisplayName = (filename) => {
+      return filename.replace(/\.[^/.]+$/, '')
+    }
+
+    // 重置图片加载状态
+    const resetImageLoadedState = () => {
+      imageLoaded.value = {}
+    }
+
+    // 处理上传成功
+    const handleUploadSuccess = (uploadedImages) => {
+      showNotification(`成功上传 ${uploadedImages.length} 个图片！`, 'success')
+      // 刷新图片列表
+      fetchImages()
+      // 刷新分类列表（可能有新分类）
+      fetchCategories()
+    }
+
+    // 处理分类创建成功
+    const handleCategoryCreated = (categoryName) => {
+      showNotification(`分类 "${categoryName}" 创建成功！`, 'success')
+      // 刷新分类列表
+      fetchCategories()
+    }
+
+    // 删除图片
+    const deleteImage = async (image) => {
+      if (!confirm(`确定要删除图片 "${image.name}" 吗？`)) {
+        return
+      }
+
+      try {
+        const response = await axios.delete(`/api/images/${image.category}/${image.name}`)
+        if (response.data.success) {
+          showNotification('图片删除成功！', 'success')
+          fetchImages() // 刷新图片列表
+        }
+      } catch (error) {
+        console.error('删除图片失败:', error)
+        showNotification(error.response?.data?.error || '删除图片失败', 'error')
+      }
+    }
+
     // 生命周期
     onMounted(() => {
       fetchCategories()
       fetchImages()
+      
+      // 添加键盘事件监听
+      document.addEventListener('keydown', handleKeyboardShortcuts)
+    })
+
+    // 清理事件监听器
+    onUnmounted(() => {
+      document.removeEventListener('keydown', handleKeyboardShortcuts)
     })
 
     return {
@@ -504,6 +744,12 @@ export default {
       getImageAccessUrl,
       copyImageUrl,
       handleImageError,
+      handleImageLoad,
+      getDisplayName,
+      imageLoaded,
+      searchSuggestions,
+      searchInput,
+      selectSuggestion,
       showNotification
     }
   }

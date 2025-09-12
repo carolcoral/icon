@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs-extra');
+const multer = require('multer');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,6 +11,51 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
+
+// 配置multer用于文件上传
+const storage = multer.diskStorage({
+  destination: async (req, file, cb) => {
+    const category = req.body.category || 'other';
+    const uploadPath = path.join(__dirname, '../public/assets/images', category);
+    await fs.ensureDir(uploadPath);
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    // 保持原文件名，如果重复则添加时间戳
+    const originalName = file.originalname;
+    const ext = path.extname(originalName);
+    const nameWithoutExt = path.basename(originalName, ext);
+    const timestamp = Date.now();
+    
+    // 检查文件是否已存在
+    const category = req.body.category || 'other';
+    const targetPath = path.join(__dirname, '../public/assets/images', category, originalName);
+    
+    if (fs.existsSync(targetPath)) {
+      cb(null, `${nameWithoutExt}_${timestamp}${ext}`);
+    } else {
+      cb(null, originalName);
+    }
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  // 只允许图片文件
+  const allowedTypes = /\.(png|ico|jpg|jpeg|gif|svg)$/i;
+  if (allowedTypes.test(file.originalname)) {
+    cb(null, true);
+  } else {
+    cb(new Error('只支持 PNG、ICO、JPG、JPEG、GIF、SVG 格式的图片文件'), false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: {
+    fileSize: 10 * 1024 * 1024 // 限制文件大小为10MB
+  }
+});
 
 // 静态文件服务 - 支持直接访问图片
 app.use('/images', express.static(path.join(__dirname, '../public/assets/images')));
@@ -126,6 +172,75 @@ app.get('/api/images', async (req, res) => {
   } catch (error) {
     console.error('获取图片列表失败:', error);
     res.status(500).json({ error: '获取图片列表失败' });
+  }
+});
+
+// 上传图片API
+app.post('/api/upload', upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: '请选择要上传的图片文件' });
+    }
+
+    const { category = 'other' } = req.body;
+    const imageInfo = {
+      name: req.file.filename,
+      originalName: req.file.originalname,
+      category: category,
+      size: req.file.size,
+      url: `/images/${category}/${req.file.filename}`,
+      path: `${category}/${req.file.filename}`,
+      uploadTime: new Date().toISOString()
+    };
+
+    res.json({
+      success: true,
+      message: '图片上传成功',
+      image: imageInfo
+    });
+  } catch (error) {
+    console.error('上传图片失败:', error);
+    res.status(500).json({ error: '上传图片失败: ' + error.message });
+  }
+});
+
+// 删除图片API
+app.delete('/api/images/:category/:imageName', async (req, res) => {
+  try {
+    const { category, imageName } = req.params;
+    const imagePath = path.join(__dirname, '../public/assets/images', category, imageName);
+    
+    if (await fs.pathExists(imagePath)) {
+      await fs.remove(imagePath);
+      res.json({ success: true, message: '图片删除成功' });
+    } else {
+      res.status(404).json({ error: '图片不存在' });
+    }
+  } catch (error) {
+    console.error('删除图片失败:', error);
+    res.status(500).json({ error: '删除图片失败' });
+  }
+});
+
+// 创建新分类API
+app.post('/api/categories', async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: '分类名称不能为空' });
+    }
+
+    const categoryPath = path.join(__dirname, '../public/assets/images', name.trim());
+    
+    if (await fs.pathExists(categoryPath)) {
+      return res.status(400).json({ error: '分类已存在' });
+    }
+
+    await fs.ensureDir(categoryPath);
+    res.json({ success: true, message: '分类创建成功', category: name.trim() });
+  } catch (error) {
+    console.error('创建分类失败:', error);
+    res.status(500).json({ error: '创建分类失败' });
   }
 });
 
