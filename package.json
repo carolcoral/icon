@@ -22,12 +22,7 @@
     "nodemon": "^3.0.1",
     "concurrently": "^8.2.2"
   },
-  "keywords": [
-    "vue3",
-    "nodejs",
-    "icon",
-    "manager"
-  ],
+  "keywords": ["vue3", "nodejs", "icon", "manager"],
   "author": "CodeBuddy",
   "license": "MIT"
 }
