@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  icon-manager:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./public/assets/images:/app/public/assets/images
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    restart: unless-stopped
+    
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./client/dist:/usr/share/nginx/html
+    depends_on:
+      - icon-manager
+    restart: unless-stopped
+
+volumes:
+  images_data:
