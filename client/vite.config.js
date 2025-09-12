@@ -7,16 +7,16 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:3001',
         changeOrigin: true
       },
       '/images': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:3001',
         changeOrigin: true
       },
       // 代理所有图片分类路径到后端
       '^/(?!src|node_modules|@|\\.|vite)([^/]+)/([^/]+\\.(png|ico|jpg|jpeg|gif|svg))$': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:3001',
         changeOrigin: true,
         rewrite: (path) => path
       }

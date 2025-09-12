@@ -51,7 +51,7 @@ app.get('/api/categories', async (req, res) => {
 // 获取图片列表
 app.get('/api/images', async (req, res) => {
   try {
-    const { category, page = 1, limit = 20 } = req.query;
+    const { category, page = 1, limit = 20, search } = req.query;
     const imagesDir = path.join(__dirname, '../public/assets/images');
     
     let allImages = [];
@@ -96,6 +96,19 @@ app.get('/api/images', async (req, res) => {
           allImages = allImages.concat(categoryImages);
         }
       }
+    }
+    
+    // 搜索过滤
+    if (search && search.trim()) {
+      const searchTerm = search.trim().toLowerCase();
+      allImages = allImages.filter(image => {
+        // 移除文件扩展名进行搜索
+        const nameWithoutExt = path.parse(image.name).name.toLowerCase();
+        const fullName = image.name.toLowerCase();
+        
+        // 支持模糊搜索：文件名（不含扩展名）或完整文件名包含搜索词
+        return nameWithoutExt.includes(searchTerm) || fullName.includes(searchTerm);
+      });
     }
     
     // 分页处理

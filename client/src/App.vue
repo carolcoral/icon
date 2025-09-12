@@ -5,12 +5,13 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <div class="flex items-center">
-            <img v-if="siteConfig.logo" :src="siteConfig.logo" alt="Logo" class="h-8 w-8 mr-3">
-            <h1 class="text-xl font-bold text-gray-900">{{ siteConfig.title }}</h1>
+            <img v-if="siteConfig.logo" :src="siteConfig.logo" alt="Logo" class="h-8 mr-3 object-contain">
+            <h1 class="text-xl font-bold text-gray-900 hidden sm:block">{{ siteConfig.title }}</h1>
           </div>
-          <nav class="flex space-x-8">
+          <nav class="hidden sm:flex space-x-8">
             <a v-for="item in siteConfig.navigation" :key="item.name" 
                :href="item.href" 
+               target="_blank"
                class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">
               {{ item.name }}
             </a>
@@ -40,6 +41,35 @@
               </select>
             </div>
 
+            <!-- 搜索框 -->
+            <div class="w-full md:w-80">
+              <label class="block text-sm font-medium text-gray-700 mb-2">搜索图标</label>
+              <div class="relative">
+                <input 
+                  v-model="searchKeyword" 
+                  @input="handleSearchInput"
+                  @keyup.enter="handleSearch"
+                  type="text" 
+                  placeholder="输入图标名称进行搜索..."
+                  class="input-field pl-10 pr-10"
+                >
+                <!-- 搜索图标 -->
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
+                </div>
+                <!-- 清除按钮 -->
+                <div v-if="searchKeyword" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                  <button @click="clearSearch" class="text-gray-400 hover:text-gray-600">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <!-- 每页显示数量 -->
             <div class="w-full md:w-48">
               <label class="block text-sm font-medium text-gray-700 mb-2">每页显示</label>
@@ -55,6 +85,9 @@
             <!-- 统计信息 -->
             <div class="flex-1 text-right">
               <p class="text-sm text-gray-600">
+                <span v-if="searchKeyword">
+                  在"{{ getSelectedCategoryLabel() }}"中搜索"{{ searchKeyword }}"，
+                </span>
                 共找到 <span class="font-semibold text-primary-600">{{ totalImages }}</span> 个图标
               </p>
             </div>
@@ -98,7 +131,7 @@
         <nav class="flex items-center space-x-2">
           <button @click="goToPage(currentPage - 1)" 
                   :disabled="currentPage === 1"
-                  class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                  class="hidden sm:block px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
             上一页
           </button>
           
@@ -121,7 +154,7 @@
           
           <button @click="goToPage(currentPage + 1)" 
                   :disabled="currentPage === totalPages"
-                  class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                  class="hidden sm:block px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
             下一页
           </button>
         </nav>
@@ -174,7 +207,20 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="text-center space-y-2">
           <p class="text-sm text-gray-600">{{ siteConfig.copyright }}</p>
-          <p v-if="siteConfig.icp" class="text-xs text-gray-500">{{ siteConfig.icp }}</p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+            <p v-if="siteConfig.icp" class="text-xs text-gray-500 flex items-center">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm2 6a2 2 0 104 0 2 2 0 00-4 0zm6 0a2 2 0 104 0 2 2 0 00-4 0z" clip-rule="evenodd"></path>
+              </svg>
+              {{ siteConfig.icp }}
+            </p>
+            <p v-if="siteConfig.publicSecurity" class="text-xs text-gray-500 flex items-center">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              {{ siteConfig.publicSecurity }}
+            </p>
+          </div>
         </div>
       </div>
     </footer>
@@ -236,6 +282,8 @@ export default {
     const images = ref([])
     const categories = ref([])
     const selectedCategory = ref('all')
+    const searchKeyword = ref('')
+    const searchTimeout = ref(null)
     const pageSize = ref(20)
     const currentPage = ref(1)
     const totalImages = ref(0)
@@ -244,15 +292,17 @@ export default {
 
     // 站点配置
     const siteConfig = reactive({
-      title: '图标管理系统',
-      logo: null,
+      title: 'Online Icon',
+      logo: 'https://api.minio.xindu.site/blog.cnkj.site/backup/logo-zark.png',
       navigation: [
-        { name: '首页', href: '#' },
-        { name: '关于', href: '#' },
-        { name: '帮助', href: '#' }
+        { name: '首页', href: 'https://xindu.site' },
+        { name: '博客', href: 'https://blog.xindu.site' },
+        { name: 'Github', href: 'https://github.com/carolcoral/icon' },
+        { name: '帮助', href: 'https://github.com/carolcoral/icon/blob/main/README.md' }
       ],
-      copyright: '© 2024 图标管理系统. All rights reserved.',
-      icp: 'ICP备案号：京ICP备12345678号'
+      copyright: '©2025 XIN·DU. All rights reserved.',
+      icp: '蜀ICP备-2023016788号',
+      publicSecurity: '川公网安备 51010802001234号'
     })
 
     // 计算属性
@@ -305,13 +355,18 @@ export default {
     const fetchImages = async () => {
       loading.value = true
       try {
-        const response = await axios.get('/api/images', {
-          params: {
-            category: selectedCategory.value,
-            page: currentPage.value,
-            limit: pageSize.value
-          }
-        })
+        const params = {
+          category: selectedCategory.value,
+          page: currentPage.value,
+          limit: pageSize.value
+        }
+        
+        // 如果有搜索关键词，添加到参数中
+        if (searchKeyword.value.trim()) {
+          params.search = searchKeyword.value.trim()
+        }
+        
+        const response = await axios.get('/api/images', { params })
         
         images.value = response.data.images
         totalImages.value = response.data.total
@@ -331,6 +386,38 @@ export default {
     const handlePageSizeChange = () => {
       currentPage.value = 1
       fetchImages()
+    }
+
+    // 搜索相关方法
+    const handleSearchInput = () => {
+      // 清除之前的定时器
+      if (searchTimeout.value) {
+        clearTimeout(searchTimeout.value)
+      }
+      
+      // 设置防抖，500ms后执行搜索
+      searchTimeout.value = setTimeout(() => {
+        handleSearch()
+      }, 500)
+    }
+
+    const handleSearch = () => {
+      currentPage.value = 1
+      fetchImages()
+    }
+
+    const clearSearch = () => {
+      searchKeyword.value = ''
+      currentPage.value = 1
+      fetchImages()
+    }
+
+    const getSelectedCategoryLabel = () => {
+      if (selectedCategory.value === 'all') {
+        return '全部分类'
+      }
+      const category = categories.value.find(cat => cat.value === selectedCategory.value)
+      return category ? category.label : selectedCategory.value
     }
 
     const goToPage = (page) => {
@@ -395,6 +482,7 @@ export default {
       images,
       categories,
       selectedCategory,
+      searchKeyword,
       pageSize,
       currentPage,
       totalImages,
@@ -406,6 +494,10 @@ export default {
       fetchImages,
       handleCategoryChange,
       handlePageSizeChange,
+      handleSearchInput,
+      handleSearch,
+      clearSearch,
+      getSelectedCategoryLabel,
       goToPage,
       selectImage,
       closeModal,
