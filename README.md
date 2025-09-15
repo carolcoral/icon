@@ -71,7 +71,7 @@ icon-manager/
 │   ├── 📄 package.json        # 前端依赖
 │   ├── 📄 vite.config.js      # Vite配置
 │   └── 📄 tailwind.config.js  # Tailwind配置
-├── 📁 server/                 # Node.js 后端
+├── 📁 node-functions/         # Node.js 后端
 │   └── 📄 index.js            # 服务器入口
 ├── 📁 public/
 │   └── 📁 assets/
@@ -149,7 +149,7 @@ const siteConfig = reactive({
 
 ### 服务器配置
 
-在 `server/index.js` 中修改服务器配置：
+在 `node-functions/index.js` 中修改服务器配置：
 
 ```javascript
 const PORT = process.env.PORT || 3000;  // 服务器端口
@@ -259,7 +259,7 @@ npm run build
 2. **上传文件**
 ```bash
 # 上传以下文件到服务器
-- server/
+- node-functions/
 - public/
 - package.json
 - 构建后的前端文件
