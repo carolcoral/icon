@@ -8,9 +8,11 @@ WORKDIR /app
 COPY package*.json ./
 COPY client/package*.json ./client/
 
-# 安装依赖
-RUN npm install
-RUN cd client && npm install
+# 安装根目录依赖
+RUN npm ci --only=production
+
+# 安装客户端依赖（包括开发依赖，因为需要构建）
+RUN cd client && npm ci
 
 # 复制源代码
 COPY . .
