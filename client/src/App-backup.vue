@@ -1,5 +1,5 @@
 n'g<template>
-  <div class="min-h-screen bg-gray-50 pb-32">
+  <div class="min-h-screen bg-gray-50 flex flex-col">
     <!-- 头部导航 -->
     <header class="bg-white shadow-sm border-b">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -466,7 +466,7 @@ export default {
     // 方法
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/categories')
+        const response = await axios.get('/api/categories')
         categories.value = response.data
       } catch (error) {
         console.error('获取分类失败:', error)
@@ -489,7 +489,7 @@ export default {
           params.search = searchKeyword.value.trim()
         }
         
-        const response = await axios.get('http://localhost:3001/api/images', { params })
+        const response = await axios.get('/api/images', { params })
         
         images.value = response.data.images
         totalImages.value = response.data.total
@@ -619,7 +619,7 @@ export default {
     }
 
     const getImageAccessUrl = (image) => {
-      return `http://localhost:3001/${image.category}/${image.name}`
+      return `${window.location.origin}/${image.category}/${image.name}`
     }
 
     // 通知状态
@@ -692,7 +692,7 @@ export default {
       }
 
       try {
-        const response = await axios.delete(`http://localhost:3001/api/images/${image.category}/${image.name}`)
+        const response = await axios.delete(`/api/images/${image.category}/${image.name}`)
         if (response.data.success) {
           showNotification('图片删除成功！', 'success')
           fetchImages() // 刷新图片列表
