@@ -1,114 +1,28 @@
 {
-  "name": "online-icon-library",
+  "name": "icon-manager",
   "version": "1.0.0",
-  "description": "基于Vue3 + Node.js + Express的现代化在线图标库管理系统，支持多格式图片展示、分类管理、搜索筛选、直接访问等功能",
+  "description": "Vue3 + Node.js图标管理系统",
   "main": "server/index.js",
-  "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.0.0"
-  },
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server/index.js",
     "client": "cd client && npm run dev",
     "build": "cd client && npm run build",
     "start": "node server/index.js",
-    "install-all": "npm install && cd client && npm install",
-    "clean": "rm -rf node_modules client/node_modules client/dist",
-    "setup": "npm run install-all",
-    "lint": "cd client && npm run lint",
-    "test": "echo \"No tests specified\" && exit 0"
+    "install-all": "npm install && cd client && npm install"
   },
   "dependencies": {
     "express": "^4.18.2",
     "cors": "^2.8.5",
     "multer": "^1.4.5-lts.1",
+    "path": "^0.12.7",
     "fs-extra": "^11.1.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",
     "concurrently": "^8.2.2"
   },
-  "clientDependencies": {
-    "vue": "^3.3.4",
-    "axios": "^1.5.0",
-    "@headlessui/vue": "^1.7.16",
-    "@heroicons/vue": "^2.0.18"
-  },
-  "clientDevDependencies": {
-    "@vitejs/plugin-vue": "^4.2.3",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.24",
-    "tailwindcss": "^3.3.0",
-    "vite": "^4.4.5"
-  },
-  "systemRequirements": {
-    "os": ["win32", "darwin", "linux"],
-    "architecture": ["x64", "arm64"],
-    "memory": ">=2GB",
-    "storage": ">=1GB"
-  },
-  "features": [
-    "多格式图片支持 (PNG, ICO, JPG, JPEG, GIF, SVG)",
-    "智能分类管理",
-    "直接访问功能 (域名/分类/图片名)",
-    "分页展示 (20/50/100张每页)",
-    "分类筛选和实时搜索",
-    "图片预览和下载",
-    "复制链接功能",
-    "响应式设计",
-    "现代化UI界面"
-  ],
-  "techStack": {
-    "frontend": {
-      "framework": "Vue 3.3.4",
-      "buildTool": "Vite 4.4.5",
-      "styling": "Tailwind CSS 3.3.0",
-      "httpClient": "Axios 1.5.0",
-      "components": "@headlessui/vue, @heroicons/vue"
-    },
-    "backend": {
-      "runtime": "Node.js",
-      "framework": "Express 4.18.2",
-      "middleware": "CORS, Multer",
-      "fileSystem": "fs-extra"
-    },
-    "development": {
-      "hotReload": "Vite HMR",
-      "processManager": "Nodemon",
-      "concurrency": "Concurrently"
-    }
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/carolcoral/icon"
-  },
-  "bugs": {
-    "url": "https://github.com/carolcoral/icon/issues"
-  },
-  "homepage": "https://github.com/carolcoral/icon#readme",
-  "keywords": [
-    "vue3",
-    "nodejs",
-    "express",
-    "icon-library",
-    "image-management",
-    "tailwindcss",
-    "vite",
-    "responsive-design",
-    "modern-ui",
-    "file-management"
-  ],
-  "author": {
-    "name": "XIN·DU",
-    "url": "https://xindu.site"
-  },
-  "contributors": [
-    {
-      "name": "CodeBuddy",
-      "role": "Development Assistant"
-    }
-  ],
-  "license": "MIT",
-  "private": false
+  "keywords": ["vue3", "nodejs", "icon", "manager"],
+  "author": "CodeBuddy",
+  "license": "MIT"
 }
