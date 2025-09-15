@@ -4,12 +4,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import { getImagesDir, createApiResponse, createErrorResponse, ensureDir, generateUniqueFilename, isImageFile } from '@/lib/utils';
 
-// 配置 Next.js 不解析请求体，让 formidable 处理
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+
 
 // POST /api/upload - 上传图片
 export async function POST(request: NextRequest) {
