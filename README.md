@@ -351,7 +351,7 @@ server {
 
 ### 📈 项目热度趋势
 
-[![Star History Chart](https://api.star-history.com/svg?repos=your-username/icon-manager&type=Date)](https://star-history.com/#your-username/icon-manager&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=carolcoral/icon&type=Date)](https://star-history.com/#carolcoral/icon&Date)
 
 **如果这个项目对你有帮助，请给我们一个 ⭐ Star！**
 
