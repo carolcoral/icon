@@ -72,5 +72,5 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3000/api/categories', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
 
-# 启动应用
-CMD ["npm", "start"]
+# 启动应用（生产环境）
+CMD ["node", "node-functions/production.js"]
