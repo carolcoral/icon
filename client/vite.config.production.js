@@ -27,14 +27,14 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: process.env.NODE_ENV === 'production' 
-          ? 'https://icon.xindu.site' 
+          ? 'https://vite.icon.xindu.site'
           : 'http://localhost:3000',
         changeOrigin: true,
         secure: true
       },
       '/images': {
         target: process.env.NODE_ENV === 'production' 
-          ? 'https://icon.xindu.site' 
+          ? 'https://vite.icon.xindu.site'
           : 'http://localhost:3000',
         changeOrigin: true,
         secure: true
