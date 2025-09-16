@@ -8,7 +8,7 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,
-    minify: 'terser',
+    minify: 'esbuild', // 使用 esbuild 替代 terser，更快且无需额外依赖
     rollupOptions: {
       output: {
         manualChunks: {
@@ -22,7 +22,13 @@ export default defineConfig({
   server: {
     port: 5173,
     host: '0.0.0.0', // 允许外部访问
-    allowedHosts: 'all', // 允许所有主机访问
+    allowedHosts: [
+      'icon.xindu.site',
+      'localhost',
+      '127.0.0.1',
+      '.xindu.site',
+      'all'
+    ], // 明确允许的主机列表
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
