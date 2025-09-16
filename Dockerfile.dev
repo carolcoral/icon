@@ -10,6 +10,9 @@ COPY package*.json ./
 # 安装所有依赖（包括开发依赖）
 RUN npm install --no-audit --no-fund && npm cache clean --force
 
+# 兜底：全局安装开发期所需工具，防止脚本找不到
+RUN npm install -g concurrently@^8 nodemon@^3 --no-audit --no-fund && npm cache clean --force
+
 # 复制客户端 package.json
 COPY client/package*.json ./client/
 

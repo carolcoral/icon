@@ -31,3 +31,4 @@ volumes:
   # 持久化图片数据
   images_data:
     driver: local
+

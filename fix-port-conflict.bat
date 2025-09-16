@@ -86,3 +86,4 @@ echo 5. 检查并杀死占用端口的进程：
 echo    netstat -ano ^| findstr :3000
 echo    taskkill /PID ^<PID^> /F
 pause
+

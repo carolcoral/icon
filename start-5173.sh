@@ -81,3 +81,4 @@ echo "🔄 实时同步测试："
 echo "  1. 在 public/assets/images/ 创建新文件夹"
 echo "  2. 添加图片文件"
 echo "  3. 刷新浏览器查看更新"
+

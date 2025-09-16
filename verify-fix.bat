@@ -110,3 +110,4 @@ echo.
 echo 🚀 现在可以重新尝试构建：
 echo docker build -t icon-manager .
 pause
+

@@ -99,3 +99,4 @@ echo "5. ✅ 分离了构建和生产环境"
 echo ""
 echo "🚀 现在可以重新尝试构建："
 echo "docker build -t icon-manager ."
+
