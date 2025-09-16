@@ -1,5 +1,23 @@
-# 图标管理系统 Docker 配置
-FROM node:18-alpine
+# 图标管理系统 Docker 配置 - 多阶段构建优化版
+# 第一阶段：构建前端
+FROM node:18-alpine AS frontend-builder
+
+WORKDIR /app/client
+
+# 复制客户端 package.json
+COPY client/package*.json ./
+
+# 安装客户端依赖（包括开发依赖）
+RUN npm ci
+
+# 复制客户端源代码
+COPY client/ ./
+
+# 构建前端项目
+RUN npm run build
+
+# 第二阶段：生产环境
+FROM node:18-alpine AS production
 
 # 添加构建参数
 ARG BUILD_DATE
@@ -20,21 +38,18 @@ LABEL maintainer="XIN·DU <https://xindu.site>" \
 # 设置工作目录
 WORKDIR /app
 
-# 复制 package.json 文件
+# 复制根目录 package.json
 COPY package*.json ./
-COPY client/package*.json ./client/
 
-# 安装根目录依赖
-RUN npm ci --only=production
+# 安装生产依赖
+RUN npm ci --only=production && npm cache clean --force
 
-# 安装客户端依赖（包括开发依赖，因为需要构建）
-RUN cd client && npm ci
+# 复制后端源代码
+COPY node-functions/ ./node-functions/
+COPY public/ ./public/
 
-# 复制源代码
-COPY . .
-
-# 构建前端项目
-RUN cd client && npm run build
+# 从构建阶段复制前端构建结果
+COPY --from=frontend-builder /app/client/dist ./client/dist
 
 # 创建图片目录
 RUN mkdir -p public/assets/images
