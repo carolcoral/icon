@@ -12,7 +12,7 @@
     "server": "nodemon node-functions/index.js",
     "client": "cd client && npm run dev",
     "build": "cd client && npm run build",
-    "start": "node node-functions/production.js",
+    "start": "node node-functions/index.js",
     "start:dev": "node node-functions/index.js",
     "install-all": "npm install && cd client && npm install",
     "clean": "rm -rf node_modules client/node_modules client/dist",
@@ -29,19 +29,6 @@
   "devDependencies": {
     "nodemon": "^3.0.1",
     "concurrently": "^8.2.2"
-  },
-  "clientDependencies": {
-    "vue": "^3.3.4",
-    "axios": "^1.5.0",
-    "@headlessui/vue": "^1.7.16",
-    "@heroicons/vue": "^2.0.18"
-  },
-  "clientDevDependencies": {
-    "@vitejs/plugin-vue": "^4.2.3",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.24",
-    "tailwindcss": "^3.3.0",
-    "vite": "^4.4.5"
   },
   "systemRequirements": {
     "os": ["win32", "darwin", "linux"],

@@ -1,21 +1,5 @@
-# 图标管理系统 Docker 配置 - 开发环境一体化
+# 图标管理系统 Docker 配置 - 开发环境
 FROM node:18-alpine
-
-# 添加构建参数
-ARG BUILD_DATE
-ARG VCS_REF
-ARG VERSION
-
-# 添加标签
-LABEL maintainer="XIN·DU <https://xindu.site>" \
-      org.opencontainers.image.title="Online Icon Library" \
-      org.opencontainers.image.description="基于Vue3 + Node.js + Express的现代化在线图标库管理系统" \
-      org.opencontainers.image.url="https://github.com/carolcoral/icon" \
-      org.opencontainers.image.source="https://github.com/carolcoral/icon" \
-      org.opencontainers.image.version="${VERSION}" \
-      org.opencontainers.image.created="${BUILD_DATE}" \
-      org.opencontainers.image.revision="${VCS_REF}" \
-      org.opencontainers.image.licenses="MIT"
 
 # 设置工作目录
 WORKDIR /app
@@ -23,7 +7,7 @@ WORKDIR /app
 # 复制根目录 package.json
 COPY package*.json ./
 
-# 安装根目录依赖（包括开发依赖）
+# 安装所有依赖（包括开发依赖）
 RUN npm ci && npm cache clean --force
 
 # 复制客户端 package.json
@@ -60,5 +44,5 @@ EXPOSE 3000 5173
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3000/api/categories', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })" || exit 1
 
-# 启动开发服务器（同时运行前端和后端）
+# 启动开发服务器
 CMD ["npm", "run", "dev"]

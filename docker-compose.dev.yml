@@ -1,17 +1,20 @@
 version: '3.8'
 
 services:
-  icon-manager:
-    build: .
+  icon-manager-dev:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
     ports:
+      - "3001:3000"  # 后端API端口
       - "5173:5173"  # 前端开发服务器端口
-      - "3000:3000"  # 后端API端口
     volumes:
       # 图片文件夹映射到宿主机，支持实时同步
       - ./public/assets/images:/app/public/assets/images
-      # 可选：实时代码更新（开发时使用）
-      # - ./client/src:/app/client/src
-      # - ./node-functions:/app/node-functions
+      # 实时代码更新
+      - ./client/src:/app/client/src
+      - ./node-functions:/app/node-functions
+      - ./package.json:/app/package.json
     environment:
       - NODE_ENV=development
       - VITE_API_BASE_URL=http://localhost:3000
