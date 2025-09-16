@@ -1,4 +1,4 @@
-n'g<template>
+<template>
   <div class="min-h-screen bg-gray-50 pb-32">
     <!-- 头部导航 -->
     <header class="bg-white shadow-sm border-b">

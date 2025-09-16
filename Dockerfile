@@ -1,23 +1,5 @@
-# 图标管理系统 Docker 配置 - 多阶段构建优化版
-# 第一阶段：构建前端
-FROM node:18-alpine AS frontend-builder
-
-WORKDIR /app/client
-
-# 复制客户端 package.json
-COPY client/package*.json ./
-
-# 安装客户端依赖（包括开发依赖）
-RUN npm ci
-
-# 复制客户端源代码
-COPY client/ ./
-
-# 构建前端项目
-RUN npm run build
-
-# 第二阶段：生产环境
-FROM node:18-alpine AS production
+# 图标管理系统 Docker 配置 - 开发环境一体化构建
+FROM node:18-alpine
 
 # 添加构建参数
 ARG BUILD_DATE
@@ -41,36 +23,44 @@ WORKDIR /app
 # 复制根目录 package.json
 COPY package*.json ./
 
-# 安装生产依赖
-RUN npm ci --only=production && npm cache clean --force
+# 安装根目录依赖
+RUN npm ci && npm cache clean --force
 
-# 复制后端源代码
-COPY node-functions/ ./node-functions/
-COPY public/ ./public/
+# 复制客户端 package.json
+COPY client/package*.json ./client/
 
-# 从构建阶段复制前端构建结果
-COPY --from=frontend-builder /app/client/dist ./client/dist
+# 安装客户端依赖（包括开发依赖，用于 vite dev server）
+WORKDIR /app/client
+RUN npm ci && npm cache clean --force
 
-# 创建图片目录
+# 回到根目录
+WORKDIR /app
+
+# 复制所有源代码
+COPY . .
+
+# 创建图片目录（如果不存在）
 RUN mkdir -p public/assets/images
 
-# 设置权限
+# 设置权限，确保可以读写图片目录
 RUN chmod -R 755 public/assets/images
 
 # 创建非root用户
 RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nextjs -u 1001
+    adduser -S appuser -u 1001
 
 # 更改文件所有权
-RUN chown -R nextjs:nodejs /app
-USER nextjs
+RUN chown -R appuser:nodejs /app
+USER appuser
 
-# 暴露端口
+# 暴露端口（前端开发服务器）
+EXPOSE 5173
+# 暴露后端API端口
 EXPOSE 3000
 
 # 健康检查
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3000/api/categories', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000/api/categories', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })" || exit 1
 
-# 启动应用（生产环境）
-CMD ["node", "node-functions/production.js"]
+# 启动脚本：同时启动前端开发服务器和后端API
+CMD ["npm", "run", "dev"]
