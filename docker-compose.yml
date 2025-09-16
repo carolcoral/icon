@@ -9,7 +9,7 @@ services:
     volumes:
       # 图片文件夹映射到宿主机，支持实时同步
       - ./public/assets/images:/app/public/assets/images
-      # 可选：实时代码更新（开发时使用）
+      # 可选：如果需要实时代码更新，可以映射源代码目录
       # - ./client/src:/app/client/src
       # - ./node-functions:/app/node-functions
     environment:
