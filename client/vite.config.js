@@ -3,13 +3,6 @@ import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   plugins: [vue()],
-  server: {
-    port: 5173,
-    host: '0.0.0.0', // 允许外部访问
-    allowedHosts: 'all', // 允许所有主机访问（生产环境推荐）
-=======
-export default defineConfig({
-  plugins: [vue()],
   // 构建配置
   build: {
     outDir: 'dist',
