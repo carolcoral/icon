@@ -24,14 +24,14 @@ WORKDIR /app
 COPY package*.json ./
 
 # 安装根目录依赖
-RUN npm ci && npm cache clean --force
+RUN npm install && npm cache clean --force
 
 # 复制客户端 package.json
 COPY client/package*.json ./client/
 
 # 安装客户端依赖（包括开发依赖，用于 vite dev server）
 WORKDIR /app/client
-RUN npm ci && npm cache clean --force
+RUN npm install && npm cache clean --force
 
 # 回到根目录
 WORKDIR /app

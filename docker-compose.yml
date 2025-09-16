@@ -5,7 +5,7 @@ services:
     build: .
     ports:
       - "5173:5173"  # 前端开发服务器端口
-      - "3000:3000"  # 后端API端口
+      # - "3000:3000"  # 后端API端口
     volumes:
       # 图片文件夹映射到宿主机，支持实时同步
       - ./public/assets/images:/app/public/assets/images
@@ -13,9 +13,9 @@ services:
       # - ./client/src:/app/client/src
       # - ./node-functions:/app/node-functions
     environment:
-      - NODE_ENV=development
-      - VITE_API_BASE_URL=http://localhost:3000
-      - PORT=3000
+      # - NODE_ENV=development
+      # - VITE_API_BASE_URL=http://localhost:3000
+      # - PORT=3000
     restart: unless-stopped
     networks:
       - icon-network
