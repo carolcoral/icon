@@ -331,11 +331,11 @@ n'g<template>
           <p class="text-sm text-gray-600">{{ siteConfig.copyright }}</p>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
             <p v-if="siteConfig.icp" class="text-xs text-gray-500 flex items-center">
-              <img src="/assets/images/other/icp-icon.png" alt="ICP" class="w-4 h-4 mr-1" />
+              <img src="/express/assets/images/other/icp-icon.png" alt="ICP" class="w-4 h-4 mr-1" />
               {{ siteConfig.icp }}
             </p>
             <p v-if="siteConfig.publicSecurity" class="text-xs text-gray-500 flex items-center">
-              <img src="/assets/images/other/gongan-icon.png" alt="公网安备" class="w-4 h-4 mr-1" />
+              <img src="/express/assets/images/other/gongan-icon.png" alt="公网安备" class="w-4 h-4 mr-1" />
               {{ siteConfig.publicSecurity }}
             </p>
           </div>
@@ -466,7 +466,7 @@ export default {
     // 方法
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('/api/categories')
+        const response = await axios.get('/express/api/categories')
         categories.value = response.data
       } catch (error) {
         console.error('获取分类失败:', error)
@@ -489,7 +489,7 @@ export default {
           params.search = searchKeyword.value.trim()
         }
         
-        const response = await axios.get('/api/images', { params })
+        const response = await axios.get('/express/api/images', { params })
         
         images.value = response.data.images
         totalImages.value = response.data.total
@@ -692,7 +692,7 @@ export default {
       }
 
       try {
-        const response = await axios.delete(`/api/images/${image.category}/${image.name}`)
+        const response = await axios.delete(`/express/api/images/${image.category}/${image.name}`)
         if (response.data.success) {
           showNotification('图片删除成功！', 'success')
           fetchImages() // 刷新图片列表

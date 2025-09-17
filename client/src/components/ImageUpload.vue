@@ -193,7 +193,7 @@ export default {
       if (!newCategoryName.value.trim()) return
       
       try {
-        const response = await axios.post('/api/categories', {
+        const response = await axios.post('/express/api/categories', {
           name: newCategoryName.value.trim()
         })
         
@@ -224,7 +224,7 @@ export default {
           formData.append('image', file)
           formData.append('category', selectedCategory.value)
           
-          const response = await axios.post('/api/upload', formData, {
+          const response = await axios.post('/express/api/upload', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }

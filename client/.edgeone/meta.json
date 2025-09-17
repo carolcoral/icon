@@ -1,0 +1,46 @@
+{
+  "nodeFunctionsRoutes": [
+    {
+      "routePath": "/express/:production*",
+      "mountPath": "express",
+      "method": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "PATCH",
+        "HEAD",
+        "OPTIONS"
+      ],
+      "module": [
+        "express/[[production]].js:onRequest"
+      ],
+      "isFramework": true
+    },
+    {
+      "routePath": "/express",
+      "mountPath": "express",
+      "method": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "PATCH",
+        "HEAD",
+        "OPTIONS"
+      ],
+      "module": [
+        "express/[[production]].js:onRequest"
+      ],
+      "isFramework": true
+    }
+  ],
+  "conf": {
+    "headers": [],
+    "redirects": [],
+    "rewrites": [],
+    "caches": [],
+    "has404": false
+  },
+  "has404": false
+}

@@ -1,0 +1,38 @@
+{
+  "routes": [
+    {
+      "routePath": "/express/:production*",
+      "mountPath": "express",
+      "method": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "PATCH",
+        "HEAD",
+        "OPTIONS"
+      ],
+      "module": [
+        "express\\[[production]].js:onRequest"
+      ],
+      "isFramework": true
+    },
+    {
+      "routePath": "/express",
+      "mountPath": "express",
+      "method": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "PATCH",
+        "HEAD",
+        "OPTIONS"
+      ],
+      "module": [
+        "express\\[[production]].js:onRequest"
+      ],
+      "isFramework": true
+    }
+  ]
+}

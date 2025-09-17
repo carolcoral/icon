@@ -8,12 +8,11 @@
     "npm": ">=8.0.0"
   },
   "scripts": {
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "nodemon node-functions/express/[[index]].js",
+    "dev": "npm run client",
     "client": "cd client && npm run dev",
     "build": "cd client && npm run build",
-    "start": "node node-functions/express/[[production]].js",
-    "start:dev": "node node-functions/express/[[index]].js",
+    "start": "node node-functions/production.js",
+    "start:dev": "node node-functions/index.js",
     "install-all": "npm install && cd client && npm install",
     "clean": "rm -rf node_modules client/node_modules client/dist",
     "setup": "npm run install-all",
