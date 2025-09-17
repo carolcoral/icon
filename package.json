@@ -2,18 +2,18 @@
   "name": "online-icon-library",
   "version": "1.0.0",
   "description": "基于Vue3 + Node.js + Express的现代化在线图标库管理系统，支持多格式图片展示、分类管理、搜索筛选、直接访问等功能",
-  "main": "node-functions/index.js",
+  "main": "node-functions/express/[[index]].js",
   "engines": {
     "node": ">=16.0.0",
     "npm": ">=8.0.0"
   },
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "nodemon node-functions/index.js",
+    "server": "nodemon node-functions/express/[[index]].js",
     "client": "cd client && npm run dev",
     "build": "cd client && npm run build",
-    "start": "node node-functions/production.js",
-    "start:dev": "node node-functions/index.js",
+    "start": "node node-functions/express/[[production]].js",
+    "start:dev": "node node-functions/express/[[index]].js",
     "install-all": "npm install && cd client && npm install",
     "clean": "rm -rf node_modules client/node_modules client/dist",
     "setup": "npm run install-all",
@@ -21,14 +21,16 @@
     "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
-    "express": "^4.18.2",
     "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "fs-extra": "^11.1.1",
     "multer": "^2.0.0-rc.4",
-    "fs-extra": "^11.1.1"
+    "npm-cli": "^0.1.0",
+    "npm-prefix": "^1.2.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1",
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.0.1"
   },
   "clientDependencies": {
     "vue": "^3.3.4",
@@ -44,8 +46,15 @@
     "vite": "^4.4.5"
   },
   "systemRequirements": {
-    "os": ["win32", "darwin", "linux"],
-    "architecture": ["x64", "arm64"],
+    "os": [
+      "win32",
+      "darwin",
+      "linux"
+    ],
+    "architecture": [
+      "x64",
+      "arm64"
+    ],
     "memory": ">=2GB",
     "storage": ">=1GB"
   },

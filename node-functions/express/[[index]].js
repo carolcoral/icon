@@ -7,49 +7,31 @@ const multer = require('multer');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 生产环境中间件配置
+const imageDirPath = '../../public/assets/images';
+
+// 中间件配置
 app.use(cors({
-  origin: function (origin, callback) {
-    // 在生产环境中允许所有来源（或根据需要配置特定域名）
-    const allowedOrigins = [
-      'https://icon.xindu.site',
-      'http://icon.xindu.site',
-      /\.xindu\.site$/,
-      /localhost:\d+$/
-    ];
-    
-    // 如果没有 origin（比如移动应用或 Postman），也允许
-    if (!origin) return callback(null, true);
-    
-    // 检查是否在允许列表中
-    const isAllowed = allowedOrigins.some(allowed => {
-      if (typeof allowed === 'string') {
-        return origin === allowed;
-      } else if (allowed instanceof RegExp) {
-        return allowed.test(origin);
-      }
-      return false;
-    });
-    
-    callback(null, isAllowed);
-  },
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://icon.xindu.site',
+    'http://icon.xindu.site',
+    /\.xindu\.site$/,  // 允许所有 xindu.site 子域名
+    /localhost:\d+$/   // 允许所有 localhost 端口
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 app.use(express.json());
+app.use(express.static('public'));
 
-// 生产环境：优先服务前端构建文件
-app.use(express.static(path.join(__dirname, '../client/dist')));
-app.use('/assets', express.static(path.join(__dirname, '../public/assets')));
-
-// 安全头
+// 添加安全头
 app.use((req, res, next) => {
   res.header('X-Content-Type-Options', 'nosniff');
-  res.header('X-Frame-Options', 'SAMEORIGIN');
+  res.header('X-Frame-Options', 'DENY');
   res.header('X-XSS-Protection', '1; mode=block');
-  res.header('Referrer-Policy', 'strict-origin-when-cross-origin');
   next();
 });
 
@@ -57,18 +39,20 @@ app.use((req, res, next) => {
 const storage = multer.diskStorage({
   destination: async (req, file, cb) => {
     const category = req.body.category || 'other';
-    const uploadPath = path.join(__dirname, '../public/assets/images', category);
+    const uploadPath = path.join(__dirname, imageDirPath, category);
     await fs.ensureDir(uploadPath);
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
+    // 保持原文件名，如果重复则添加时间戳
     const originalName = file.originalname;
     const ext = path.extname(originalName);
     const nameWithoutExt = path.basename(originalName, ext);
     const timestamp = Date.now();
     
+    // 检查文件是否已存在
     const category = req.body.category || 'other';
-    const targetPath = path.join(__dirname, '../public/assets/images', category, originalName);
+    const targetPath = path.join(__dirname, imageDirPath, category, originalName);
     
     if (fs.existsSync(targetPath)) {
       cb(null, `${nameWithoutExt}_${timestamp}${ext}`);
@@ -79,6 +63,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
+  // 只允许图片文件
   const allowedTypes = /\.(png|ico|jpg|jpeg|gif|svg)$/i;
   if (allowedTypes.test(file.originalname)) {
     cb(null, true);
@@ -91,27 +76,26 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 10 * 1024 * 1024
+    fileSize: 10 * 1024 * 1024 // 限制文件大小为10MB
   }
 });
 
 // 静态文件服务 - 支持直接访问图片
-app.use('/images', express.static(path.join(__dirname, '../public/assets/images')));
+app.use('/images', express.static(path.join(__dirname, imageDirPath)));
 
 // 确保目录存在
 const ensureDirectories = async () => {
-  const imagesDir = path.join(__dirname, '../public/assets/images');
+  const imagesDir = path.join(__dirname, imageDirPath);
   await fs.ensureDir(imagesDir);
+  
+  // 确保github文件夹存在
   await fs.ensureDir(path.join(imagesDir, 'github'));
 };
 
-// API 路由（与原文件相同的 API 路由）
-// ... 这里包含所有原有的 API 路由 ...
-
-// 获取所有图片分类
+// 获取所有图片分类（文件夹名称）
 app.get('/api/categories', async (req, res) => {
   try {
-    const imagesDir = path.join(__dirname, '../public/assets/images');
+    const imagesDir = path.join(__dirname, imageDirPath);
     const items = await fs.readdir(imagesDir);
     const categories = [];
     
@@ -137,11 +121,12 @@ app.get('/api/categories', async (req, res) => {
 app.get('/api/images', async (req, res) => {
   try {
     const { category, page = 1, limit = 20, search } = req.query;
-    const imagesDir = path.join(__dirname, '../public/assets/images');
+    const imagesDir = path.join(__dirname, imageDirPath);
     
     let allImages = [];
     
     if (category && category !== 'all') {
+      // 获取特定分类的图片
       const categoryDir = path.join(imagesDir, category);
       if (await fs.pathExists(categoryDir)) {
         const files = await fs.readdir(categoryDir);
@@ -157,6 +142,7 @@ app.get('/api/images', async (req, res) => {
         }));
       }
     } else {
+      // 获取所有分类的图片
       const categories = await fs.readdir(imagesDir);
       
       for (const cat of categories) {
@@ -181,15 +167,20 @@ app.get('/api/images', async (req, res) => {
       }
     }
     
+    // 搜索过滤
     if (search && search.trim()) {
       const searchTerm = search.trim().toLowerCase();
       allImages = allImages.filter(image => {
+        // 移除文件扩展名进行搜索
         const nameWithoutExt = path.parse(image.name).name.toLowerCase();
         const fullName = image.name.toLowerCase();
+        
+        // 支持模糊搜索：文件名（不含扩展名）或完整文件名包含搜索词
         return nameWithoutExt.includes(searchTerm) || fullName.includes(searchTerm);
       });
     }
     
+    // 分页处理
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + parseInt(limit);
     const paginatedImages = allImages.slice(startIndex, endIndex);
@@ -240,7 +231,7 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
 app.delete('/api/images/:category/:imageName', async (req, res) => {
   try {
     const { category, imageName } = req.params;
-    const imagePath = path.join(__dirname, '../public/assets/images', category, imageName);
+    const imagePath = path.join(__dirname, imageDirPath, category, imageName);
     
     if (await fs.pathExists(imagePath)) {
       await fs.remove(imagePath);
@@ -262,7 +253,7 @@ app.post('/api/categories', async (req, res) => {
       return res.status(400).json({ error: '分类名称不能为空' });
     }
 
-    const categoryPath = path.join(__dirname, '../public/assets/images', name.trim());
+    const categoryPath = path.join(__dirname, imageDirPath, name.trim());
     
     if (await fs.pathExists(categoryPath)) {
       return res.status(400).json({ error: '分类已存在' });
@@ -276,18 +267,20 @@ app.post('/api/categories', async (req, res) => {
   }
 });
 
-// 支持属性名访问图片
+// 支持属性名访问图片 - <域名>:<属性名>/图片名
 app.get('/:category/:imageName', async (req, res) => {
   try {
     const { category, imageName } = req.params;
     
+    // 检查是否是图片文件
     if (!/\.(png|ico|jpg|jpeg|gif|svg)$/i.test(imageName)) {
       return res.status(404).json({ error: '不支持的文件类型' });
     }
     
-    const imagePath = path.join(__dirname, '../public/assets/images', category, imageName);
+    const imagePath = path.join(__dirname, imageDirPath, category, imageName);
     
     if (await fs.pathExists(imagePath)) {
+      // 设置正确的Content-Type
       const ext = path.extname(imageName).toLowerCase();
       const mimeTypes = {
         '.png': 'image/png',
@@ -312,20 +305,15 @@ app.get('/:category/:imageName', async (req, res) => {
   }
 });
 
-// 生产环境：所有其他路由都返回 index.html（SPA 路由支持）
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-});
-
 // 启动服务器
 const startServer = async () => {
   await ensureDirectories();
   
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 生产服务器运行在 http://0.0.0.0:${PORT}`);
-    console.log(`📱 本地访问: http://localhost:${PORT}`);
-    console.log(`🌐 外部访问: https://icon.xindu.site`);
-    console.log(`📸 图片访问格式: https://icon.xindu.site/<分类>/<图片名>`);
+    console.log(`服务器运行在 http://0.0.0.0:${PORT}`);
+    console.log(`本地访问: http://localhost:${PORT}`);
+    console.log(`图片访问格式: http://localhost:${PORT}/<属性名>/<图片名>`);
+    console.log(`允许的域名: icon.xindu.site 及其子域名`);
   });
 };
 
