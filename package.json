@@ -2,18 +2,18 @@
   "name": "online-icon-library",
   "version": "1.0.0",
   "description": "基于Vue3 + Node.js + Express的现代化在线图标库管理系统，支持多格式图片展示、分类管理、搜索筛选、直接访问等功能",
-  "main": "node-functions/express/[[index]].js",
+  "main": "client/node-functions/express/[[index]].js",
   "engines": {
     "node": ">=16.0.0",
     "npm": ">=8.0.0"
   },
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "nodemon node-functions/express/[[index]].js",
+    "server": "nodemon client/node-functions/express/[[index]].js",
     "client": "cd client && npm run dev",
     "build": "cd client && npm run build",
-    "start": "node node-functions/express/[[production]].js",
-    "start:dev": "node node-functions/express/[[index]].js",
+    "start": "node client/node-functions/express/[[production]].js",
+    "start:dev": "node client/node-functions/express/[[index]].js",
     "install-all": "npm install && cd client && npm install",
     "clean": "rm -rf node_modules client/node_modules client/dist",
     "setup": "npm run install-all",
