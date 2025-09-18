@@ -1,0 +1,10 @@
+{
+  "conf": {
+    "headers": [],
+    "redirects": [],
+    "rewrites": [],
+    "caches": [],
+    "has404": false
+  },
+  "has404": false
+}
