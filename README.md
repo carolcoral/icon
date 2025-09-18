@@ -79,7 +79,6 @@ icon/
 │           ├── 📁 github/    # GitHub徽章分类
 │           └── 📁 other/     # 其他图标分类
 ├── 📄 vite.config.js         # Vite开发配置
-├── 📄 vite.config.production.js # Vite生产配置
 ├── 📄 package.json           # 项目依赖配置
 ├── 📄 tailwind.config.js     # Tailwind CSS配置
 └── 📄 README.md             # 项目文档

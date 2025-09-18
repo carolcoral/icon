@@ -619,7 +619,12 @@ export default {
     }
 
     const getImageAccessUrl = (image) => {
-      return `${window.location.origin}/${image.category}/${image.name}`
+      // 在生产环境中使用绝对路径，开发环境中使用相对路径
+      if (process.env.NODE_ENV === 'production') {
+        return `${window.location.origin}${image.url}`
+      } else {
+        return `${window.location.origin}/${image.category}/${image.name}`
+      }
     }
 
     // 通知状态
