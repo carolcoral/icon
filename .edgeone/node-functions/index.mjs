@@ -33153,7 +33153,7 @@ var mod_0 = (() => {
   var isEdgeOne = process.cwd().includes(".edgeone");
   console.log("Current working directory:", process.cwd());
   console.log("Is EdgeOne environment:", isEdgeOne);
-  var imageDirPath = "public/assets/images";
+  var imageDirPath = "dist/assets/images";
   console.log("Image directory path:", imageDirPath);
   if (!import_fs_extra.default.existsSync(imageDirPath)) {
     console.error("Image directory does not exist:", imageDirPath);
@@ -33459,7 +33459,7 @@ var mod_1 = (() => {
   var isEdgeOne = process.cwd().includes(".edgeone");
   console.log("Current working directory:", process.cwd());
   console.log("Is EdgeOne environment:", isEdgeOne);
-  var imageDirPath = "public/assets/images";
+  var imageDirPath = "dist/assets/images";
   console.log("Image directory path:", imageDirPath);
   if (!import_fs_extra.default.existsSync(imageDirPath)) {
     console.error("Image directory does not exist:", imageDirPath);
