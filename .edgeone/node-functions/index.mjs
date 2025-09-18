@@ -33179,8 +33179,8 @@ var mod_0 = (() => {
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
   }));
-  app.use(import_express.default.static("../../dist"));
-  app.use("/assets", import_express.default.static("../../public/assets"));
+  app.use(import_express.default.static("dist"));
+  app.use("/assets", import_express.default.static("public/assets"));
   app.use((req, res, next) => {
     res.header("X-Content-Type-Options", "nosniff");
     res.header("X-Frame-Options", "SAMEORIGIN");
@@ -33448,7 +33448,7 @@ var mod_0 = (() => {
     }
   });
   app.get("*", (req, res) => {
-    res.sendFile("../../dist/index.html");
+    res.sendFile("dist/index.html");
   });
   var stdin_default = app;
   return stdin_default;
@@ -33485,8 +33485,8 @@ var mod_1 = (() => {
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
   }));
-  app.use(import_express.default.static("../../dist"));
-  app.use("/assets", import_express.default.static("../../public/assets"));
+  app.use(import_express.default.static("dist"));
+  app.use("/assets", import_express.default.static("public/assets"));
   app.use((req, res, next) => {
     res.header("X-Content-Type-Options", "nosniff");
     res.header("X-Frame-Options", "SAMEORIGIN");
@@ -33754,7 +33754,7 @@ var mod_1 = (() => {
     }
   });
   app.get("*", (req, res) => {
-    res.sendFile("../../dist/index.html");
+    res.sendFile("dist/index.html");
   });
   var stdin_default = app;
   return stdin_default;
