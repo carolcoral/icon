@@ -13,7 +13,7 @@ console.log('Current working directory:', process.cwd());
 console.log('Is EdgeOne environment:', isEdgeOne);
 
 // 在EdgeOne环境中，直接使用绝对路径
-const imageDirPath = 'D:/workspace/github/icon/public/assets/images';
+const imageDirPath = 'public/assets/images';
 console.log('Image directory path:', imageDirPath);
 
 // 检查图片目录是否存在
