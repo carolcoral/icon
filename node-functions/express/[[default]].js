@@ -13,7 +13,7 @@ console.log('Current working directory:', process.cwd());
 console.log('Is EdgeOne environment:', isEdgeOne);
 
 // 在EdgeOne环境中，直接使用绝对路径
-const imageDirPath = 'dist/assets/images';
+const imageDirPath = 'assets/images';
 console.log('Image directory path:', imageDirPath);
 
 // 检查图片目录是否存在
@@ -57,7 +57,7 @@ app.use(cors({
 // 完全移除JSON解析器，使用原始请求处理
 
 // 生产环境：优先服务前端构建文件
-app.use(express.static('dist'));
+app.use(express.static('./'));
 app.use('/assets', express.static('public/assets'));
 
 // 安全头
@@ -346,7 +346,7 @@ app.get('/:category/:imageName', async (req, res) => {
 
 // 生产环境：所有其他路由都返回 index.html（SPA 路由支持）
 app.get('*', (req, res) => {
-  res.sendFile('dist/index.html');
+  res.sendFile('index.html');
 });
 
 export default app;
