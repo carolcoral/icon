@@ -13,7 +13,7 @@ console.log('Current working directory:', process.cwd());
 console.log('Is EdgeOne environment:', isEdgeOne);
 
 // 在EdgeOne环境中，直接使用绝对路径
-const imageDirPath = 'dist/assets/images';
+const imageDirPath = 'assets/images';
 console.log('Image directory path:', imageDirPath);
 
 // 检查图片目录是否存在
@@ -57,10 +57,10 @@ app.use(cors({
 // 完全移除JSON解析器，使用原始请求处理
 
 // 生产环境：优先服务前端构建文件
-app.use(express.static('/'));
+app.use(express.static('./'));
 //app.use(express.static('../../dist'));
 //app.use('/assets', express.static('../../public/assets'));
-app.use('/assets', express.static('/assets'));
+app.use('/assets', express.static('./assets'));
 
 // 安全头
 app.use((req, res, next) => {
@@ -346,10 +346,52 @@ app.get('/:category/:imageName', async (req, res) => {
   }
 });
 
+// 打印目录结构到控制台
+const printDirectoryStructure = async (dir, prefix = '') => {
+  const items = await fs.readdir(dir);
+  let structure = '';
+  
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    const fullPath = path.join(dir, item);
+    const stat = await fs.stat(fullPath);
+    const isLast = i === items.length - 1;
+    
+    if (stat.isDirectory()) {
+      structure += `${prefix}${isLast ? '└── ' : '├── '}📁 ${item}/
+`;
+      structure += await printDirectoryStructure(
+        fullPath, 
+        `${prefix}${isLast ? '    ' : '│   '}`
+      );
+    } else {
+      structure += `${prefix}${isLast ? '└── ' : '├── '}📄 ${item}
+`;
+    }
+  }
+  
+  return structure;
+};
+
+// 在服务器启动时打印目录结构
+const printProjectStructure = async () => {
+  try {
+    const rootDir = process.cwd();
+    const structure = await printDirectoryStructure(rootDir);
+    console.log('项目目录结构:');
+    console.log(structure);
+  } catch (error) {
+    console.error('打印目录结构失败:', error);
+  }
+};
+
+// 调用打印函数
+printProjectStructure();
+
 // 生产环境：所有其他路由都返回 index.html（SPA 路由支持）
 app.get('*', (req, res) => {
 //  res.sendFile('../../dist/index.html');
-  res.sendFile('/index.html');
+  res.sendFile('index.html');
 });
 
 export default app;
