@@ -57,8 +57,10 @@ app.use(cors({
 // 完全移除JSON解析器，使用原始请求处理
 
 // 生产环境：优先服务前端构建文件
-app.use(express.static('../../dist'));
-app.use('/assets', express.static('../../public/assets'));
+app.use(express.static('/'));
+//app.use(express.static('../../dist'));
+//app.use('/assets', express.static('../../public/assets'));
+app.use('/assets', express.static('/assets'));
 
 // 安全头
 app.use((req, res, next) => {
@@ -346,7 +348,8 @@ app.get('/:category/:imageName', async (req, res) => {
 
 // 生产环境：所有其他路由都返回 index.html（SPA 路由支持）
 app.get('*', (req, res) => {
-  res.sendFile('../../dist/index.html');
+//  res.sendFile('../../dist/index.html');
+  res.sendFile('/index.html');
 });
 
 export default app;
