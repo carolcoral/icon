@@ -33147,13 +33147,13 @@ var env = {};
 Object.assign(env, process.env || {});
 delete env.TENCENTCLOUD_UIN;
 delete env.TENCENTCLOUD_APPID;
-var mod_4 = (() => {
+var mod_0 = (() => {
   var app = (0, import_express.default)();
   var PORT = process.env.PORT || 3e3;
   var isEdgeOne = process.cwd().includes(".edgeone");
   console.log("Current working directory:", process.cwd());
   console.log("Is EdgeOne environment:", isEdgeOne);
-  var imageDirPath = "assets/images";
+  var imageDirPath = "dist/assets/images";
   console.log("Image directory path:", imageDirPath);
   if (!import_fs_extra.default.existsSync(imageDirPath)) {
     console.error("Image directory does not exist:", imageDirPath);
@@ -33179,8 +33179,8 @@ var mod_4 = (() => {
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
   }));
-  app.use(import_express.default.static("./"));
-  app.use("/assets", import_express.default.static("public/assets"));
+  app.use(import_express.default.static("../../dist"));
+  app.use("/assets", import_express.default.static("../../public/assets"));
   app.use((req, res, next) => {
     res.header("X-Content-Type-Options", "nosniff");
     res.header("X-Frame-Options", "SAMEORIGIN");
@@ -33448,18 +33448,18 @@ var mod_4 = (() => {
     }
   });
   app.get("*", (req, res) => {
-    res.sendFile("index.html");
+    res.sendFile("../../dist/index.html");
   });
   var stdin_default = app;
   return stdin_default;
 })();
-var mod_5 = (() => {
+var mod_1 = (() => {
   var app = (0, import_express.default)();
   var PORT = process.env.PORT || 3e3;
   var isEdgeOne = process.cwd().includes(".edgeone");
   console.log("Current working directory:", process.cwd());
   console.log("Is EdgeOne environment:", isEdgeOne);
-  var imageDirPath = "assets/images";
+  var imageDirPath = "dist/assets/images";
   console.log("Image directory path:", imageDirPath);
   if (!import_fs_extra.default.existsSync(imageDirPath)) {
     console.error("Image directory does not exist:", imageDirPath);
@@ -33485,8 +33485,8 @@ var mod_5 = (() => {
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
   }));
-  app.use(import_express.default.static("./"));
-  app.use("/assets", import_express.default.static("public/assets"));
+  app.use(import_express.default.static("../../dist"));
+  app.use("/assets", import_express.default.static("../../public/assets"));
   app.use((req, res, next) => {
     res.header("X-Content-Type-Options", "nosniff");
     res.header("X-Frame-Options", "SAMEORIGIN");
@@ -33754,7 +33754,7 @@ var mod_5 = (() => {
     }
   });
   app.get("*", (req, res) => {
-    res.sendFile("index.html");
+    res.sendFile("../../dist/index.html");
   });
   var stdin_default = app;
   return stdin_default;
@@ -34223,7 +34223,7 @@ var server = http.createServer(async (req, res) => {
     {
       const routePattern = new RegExp("^/express/.*$");
       if (routePattern.test(pathname)) {
-        const app = mod_4;
+        const app = mod_0;
         if (app) {
           const pathParts = pathname.split("/").filter(Boolean);
           const routeParts = "/express/:default*".split("/").filter(Boolean);
@@ -34290,7 +34290,7 @@ var server = http.createServer(async (req, res) => {
     {
       const routePattern = new RegExp("^/express$");
       if (routePattern.test(pathname)) {
-        const app = mod_5;
+        const app = mod_1;
         if (app) {
           const pathParts = pathname.split("/").filter(Boolean);
           const routeParts = "/express".split("/").filter(Boolean);

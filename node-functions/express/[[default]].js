@@ -13,7 +13,7 @@ console.log('Current working directory:', process.cwd());
 console.log('Is EdgeOne environment:', isEdgeOne);
 
 // 在EdgeOne环境中，直接使用绝对路径
-const imageDirPath = 'assets/images';
+const imageDirPath = 'dist/assets/images';
 console.log('Image directory path:', imageDirPath);
 
 // 检查图片目录是否存在
@@ -33,10 +33,10 @@ app.use(cors({
       /\.xindu\.site$/,
       /localhost:\d+$/
     ];
-    
+
     // 如果没有 origin（比如移动应用或 Postman），也允许
     if (!origin) return callback(null, true);
-    
+
     // 检查是否在允许列表中
     const isAllowed = allowedOrigins.some(allowed => {
       if (typeof allowed === 'string') {
@@ -46,7 +46,7 @@ app.use(cors({
       }
       return false;
     });
-    
+
     callback(null, isAllowed);
   },
   credentials: true,
@@ -57,8 +57,8 @@ app.use(cors({
 // 完全移除JSON解析器，使用原始请求处理
 
 // 生产环境：优先服务前端构建文件
-app.use(express.static('./'));
-app.use('/assets', express.static('public/assets'));
+app.use(express.static('../../dist'));
+app.use('/assets', express.static('../../public/assets'));
 
 // 安全头
 app.use((req, res, next) => {
@@ -83,11 +83,11 @@ const storage = multer.diskStorage({
     const ext = path.extname(originalName);
     const nameWithoutExt = path.basename(originalName, ext);
     const timestamp = Date.now();
-    
+
     // 从查询参数获取分类，避免使用req.body
     const category = req.query.category || 'other';
     const targetPath = path.join(imageDirPath, category, originalName);
-    
+
     if (fs.existsSync(targetPath)) {
       cb(null, `${nameWithoutExt}_${timestamp}${ext}`);
     } else {
@@ -132,7 +132,7 @@ app.get('/api/categories', async (req, res) => {
     const imagesDir = imageDirPath;
     const items = await fs.readdir(imagesDir);
     const categories = [];
-    
+
     for (const item of items) {
       const itemPath = path.join(imagesDir, item);
       const stat = await fs.stat(itemPath);
@@ -143,7 +143,7 @@ app.get('/api/categories', async (req, res) => {
         });
       }
     }
-    
+
     res.json(categories);
   } catch (error) {
     console.error('获取分类失败:', error);
@@ -156,17 +156,17 @@ app.get('/api/images', async (req, res) => {
   try {
     const { category, page = 1, limit = 20, search } = req.query;
     const imagesDir = imageDirPath;
-    
+
     let allImages = [];
-    
+
     if (category && category !== 'all') {
       const categoryDir = path.join(imagesDir, category);
       if (await fs.pathExists(categoryDir)) {
         const files = await fs.readdir(categoryDir);
-        const imageFiles = files.filter(file => 
+        const imageFiles = files.filter(file =>
           /\.(png|ico|jpg|jpeg|gif|svg)$/i.test(file)
         );
-        
+
         allImages = imageFiles.map(file => ({
           name: file,
           category: category,
@@ -176,29 +176,29 @@ app.get('/api/images', async (req, res) => {
       }
     } else {
       const categories = await fs.readdir(imagesDir);
-      
+
       for (const cat of categories) {
         const catPath = path.join(imagesDir, cat);
         const stat = await fs.stat(catPath);
-        
+
         if (stat.isDirectory()) {
           const files = await fs.readdir(catPath);
-          const imageFiles = files.filter(file => 
+          const imageFiles = files.filter(file =>
             /\.(png|ico|jpg|jpeg|gif|svg)$/i.test(file)
           );
-          
+
           const categoryImages = imageFiles.map(file => ({
             name: file,
             category: cat,
             url: `/images/${cat}/${file}`,
             path: `${cat}/${file}`
           }));
-          
+
           allImages = allImages.concat(categoryImages);
         }
       }
     }
-    
+
     if (search && search.trim()) {
       const searchTerm = search.trim().toLowerCase();
       allImages = allImages.filter(image => {
@@ -207,11 +207,11 @@ app.get('/api/images', async (req, res) => {
         return nameWithoutExt.includes(searchTerm) || fullName.includes(searchTerm);
       });
     }
-    
+
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + parseInt(limit);
     const paginatedImages = allImages.slice(startIndex, endIndex);
-    
+
     res.json({
       images: paginatedImages,
       total: allImages.length,
@@ -260,7 +260,7 @@ app.delete('/api/images/:category/:imageName', async (req, res) => {
   try {
     const { category, imageName } = req.params;
     const imagePath = path.join(imageDirPath, category, imageName);
-    
+
     if (await fs.pathExists(imagePath)) {
       await fs.remove(imagePath);
       res.json({ success: true, message: '图片删除成功' });
@@ -281,7 +281,7 @@ app.post('/api/categories', async (req, res) => {
     req.on('data', chunk => {
       body += chunk.toString();
     });
-    
+
     req.on('end', async () => {
       try {
         const { name } = JSON.parse(body);
@@ -290,7 +290,7 @@ app.post('/api/categories', async (req, res) => {
         }
 
         const categoryPath = path.join(imageDirPath, name.trim());
-        
+
         if (await fs.pathExists(categoryPath)) {
           return res.status(400).json({ error: '分类已存在' });
         }
@@ -312,13 +312,13 @@ app.post('/api/categories', async (req, res) => {
 app.get('/:category/:imageName', async (req, res) => {
   try {
     const { category, imageName } = req.params;
-    
+
     if (!/\.(png|ico|jpg|jpeg|gif|svg)$/i.test(imageName)) {
       return res.status(404).json({ error: '不支持的文件类型' });
     }
-    
+
     const imagePath = path.join(imageDirPath, category, imageName);
-    
+
     if (await fs.pathExists(imagePath)) {
       const ext = path.extname(imageName).toLowerCase();
       const mimeTypes = {
@@ -329,11 +329,11 @@ app.get('/:category/:imageName', async (req, res) => {
         '.gif': 'image/gif',
         '.svg': 'image/svg+xml'
       };
-      
+
       if (mimeTypes[ext]) {
         res.setHeader('Content-Type', mimeTypes[ext]);
       }
-      
+
       res.sendFile(imagePath);
     } else {
       res.status(404).json({ error: '图片不存在' });
@@ -346,7 +346,7 @@ app.get('/:category/:imageName', async (req, res) => {
 
 // 生产环境：所有其他路由都返回 index.html（SPA 路由支持）
 app.get('*', (req, res) => {
-  res.sendFile('index.html');
+  res.sendFile('../../dist/index.html');
 });
 
 export default app;
