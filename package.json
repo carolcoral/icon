@@ -62,7 +62,7 @@
       "framework": "Vue 3.3.4",
       "buildTool": "Vite 4.4.5",
       "styling": "Tailwind CSS 3.3.0",
-      "httpClient": "Axios 1.5.0",
+
       "components": "@headlessui/vue, @heroicons/vue"
     },
     "backend": "纯静态模式，无后端依赖",
