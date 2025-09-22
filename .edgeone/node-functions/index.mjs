@@ -18364,7 +18364,7 @@ var require_view = __commonJS({
     var debug = require_src()("express:view");
     var path2 = __require("path");
     var fs2 = __require("fs");
-    var dirname = path2.dirname;
+    var dirname2 = path2.dirname;
     var basename = path2.basename;
     var extname = path2.extname;
     var join = path2.join;
@@ -18403,7 +18403,7 @@ var require_view = __commonJS({
       for (var i = 0; i < roots.length && !path3; i++) {
         var root = roots[i];
         var loc = resolve(root, name);
-        var dir = dirname(loc);
+        var dir = dirname2(loc);
         var file = basename(loc);
         path3 = this.resolve(dir, file);
       }
@@ -33143,6 +33143,8 @@ var import_fs_extra = __toESM(require_lib4());
 var import_multer = __toESM(require_multer());
 import http from "http";
 import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 var env = {};
 Object.assign(env, process.env || {});
 delete env.TENCENTCLOUD_UIN;
@@ -33150,10 +33152,32 @@ delete env.TENCENTCLOUD_APPID;
 var mod_0 = (() => {
   var app = (0, import_express.default)();
   var PORT = process.env.PORT || 3e3;
+  var __filename = fileURLToPath(import.meta.url);
+  var __dirname = dirname(__filename);
+  var CACHE_FILE = path.join(__dirname, "image-cache.json");
+  var imageCache = {};
+  var loadCache = async () => {
+    try {
+      if (await import_fs_extra.default.pathExists(CACHE_FILE)) {
+        const data = await import_fs_extra.default.readFile(CACHE_FILE, "utf-8");
+        imageCache = JSON.parse(data);
+      }
+    } catch (error) {
+      console.error("\u52A0\u8F7D\u7F13\u5B58\u5931\u8D25:", error);
+    }
+  };
+  var saveCache = async () => {
+    try {
+      await import_fs_extra.default.writeFile(CACHE_FILE, JSON.stringify(imageCache, null, 2));
+    } catch (error) {
+      console.error("\u4FDD\u5B58\u7F13\u5B58\u5931\u8D25:", error);
+    }
+  };
+  loadCache();
   var isEdgeOne = process.cwd().includes(".edgeone");
   console.log("Current working directory:", process.cwd());
   console.log("Is EdgeOne environment:", isEdgeOne);
-  var imageDirPath = "dist/assets/images";
+  var imageDirPath = "../../dist/assets/images";
   console.log("Image directory path:", imageDirPath);
   if (!import_fs_extra.default.existsSync(imageDirPath)) {
     console.error("Image directory does not exist:", imageDirPath);
@@ -33225,21 +33249,41 @@ var mod_0 = (() => {
     }
   });
   app.use("/images", import_express.default.static(imageDirPath));
-  app.get("/api/categories", async (req, res) => {
+  app.post("/api/update-image-cache", async (req, res) => {
     try {
-      const imagesDir = imageDirPath;
-      const items = await import_fs_extra.default.readdir(imagesDir);
-      const categories = [];
-      for (const item of items) {
-        const itemPath = path.join(imagesDir, item);
-        const stat = await import_fs_extra.default.stat(itemPath);
-        if (stat.isDirectory()) {
-          categories.push({
-            label: item,
-            value: item
+      let body = "";
+      req.on("data", (chunk) => {
+        body += chunk.toString();
+      });
+      req.on("end", async () => {
+        try {
+          const data = JSON.parse(body);
+          imageCache = data;
+          await saveCache();
+          res.json({
+            success: true,
+            message: "\u56FE\u7247\u7F13\u5B58\u66F4\u65B0\u6210\u529F"
+          });
+        } catch (error) {
+          console.error("\u66F4\u65B0\u7F13\u5B58\u5931\u8D25:", error);
+          res.status(500).json({
+            error: "\u66F4\u65B0\u7F13\u5B58\u5931\u8D25"
           });
         }
-      }
+      });
+    } catch (error) {
+      console.error("\u5904\u7406\u8BF7\u6C42\u5931\u8D25:", error);
+      res.status(500).json({
+        error: "\u5904\u7406\u8BF7\u6C42\u5931\u8D25"
+      });
+    }
+  });
+  app.get("/api/categories", async (req, res) => {
+    try {
+      const categories = Object.keys(imageCache).map((category) => ({
+        label: category,
+        value: category
+      }));
       res.json(categories);
     } catch (error) {
       console.error("\u83B7\u53D6\u5206\u7C7B\u5931\u8D25:", error);
@@ -33256,14 +33300,10 @@ var mod_0 = (() => {
         limit = 20,
         search
       } = req.query;
-      const imagesDir = imageDirPath;
       let allImages = [];
       if (category && category !== "all") {
-        const categoryDir = path.join(imagesDir, category);
-        if (await import_fs_extra.default.pathExists(categoryDir)) {
-          const files = await import_fs_extra.default.readdir(categoryDir);
-          const imageFiles = files.filter((file) => /\.(png|ico|jpg|jpeg|gif|svg)$/i.test(file));
-          allImages = imageFiles.map((file) => ({
+        if (imageCache[category]) {
+          allImages = imageCache[category].map((file) => ({
             name: file,
             category,
             url: `/images/${category}/${file}`,
@@ -33271,21 +33311,14 @@ var mod_0 = (() => {
           }));
         }
       } else {
-        const categories = await import_fs_extra.default.readdir(imagesDir);
-        for (const cat of categories) {
-          const catPath = path.join(imagesDir, cat);
-          const stat = await import_fs_extra.default.stat(catPath);
-          if (stat.isDirectory()) {
-            const files = await import_fs_extra.default.readdir(catPath);
-            const imageFiles = files.filter((file) => /\.(png|ico|jpg|jpeg|gif|svg)$/i.test(file));
-            const categoryImages = imageFiles.map((file) => ({
-              name: file,
-              category: cat,
-              url: `/images/${cat}/${file}`,
-              path: `${cat}/${file}`
-            }));
-            allImages = allImages.concat(categoryImages);
-          }
+        for (const cat in imageCache) {
+          const categoryImages = imageCache[cat].map((file) => ({
+            name: file,
+            category: cat,
+            url: `/images/${cat}/${file}`,
+            path: `${cat}/${file}`
+          }));
+          allImages = allImages.concat(categoryImages);
         }
       }
       if (search && search.trim()) {
@@ -33447,6 +33480,36 @@ var mod_0 = (() => {
       });
     }
   });
+  var printDirectoryStructure = async (dir, prefix = "") => {
+    const items = await import_fs_extra.default.readdir(dir);
+    let structure = "";
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const fullPath = path.join(dir, item);
+      const stat = await import_fs_extra.default.stat(fullPath);
+      const isLast = i === items.length - 1;
+      if (stat.isDirectory()) {
+        structure += `${prefix}${isLast ? "\u2514\u2500\u2500 " : "\u251C\u2500\u2500 "}\u{1F4C1} ${item}/
+`;
+        structure += await printDirectoryStructure(fullPath, `${prefix}${isLast ? "    " : "\u2502   "}`);
+      } else {
+        structure += `${prefix}${isLast ? "\u2514\u2500\u2500 " : "\u251C\u2500\u2500 "}\u{1F4C4} ${item}
+`;
+      }
+    }
+    return structure;
+  };
+  var printProjectStructure = async () => {
+    try {
+      const rootDir = process.cwd();
+      const structure = await printDirectoryStructure(rootDir);
+      console.log("\u9879\u76EE\u76EE\u5F55\u7ED3\u6784:");
+      console.log(structure);
+    } catch (error) {
+      console.error("\u6253\u5370\u76EE\u5F55\u7ED3\u6784\u5931\u8D25:", error);
+    }
+  };
+  printProjectStructure();
   app.get("*", (req, res) => {
     res.sendFile("../../dist/index.html");
   });
@@ -33456,10 +33519,32 @@ var mod_0 = (() => {
 var mod_1 = (() => {
   var app = (0, import_express.default)();
   var PORT = process.env.PORT || 3e3;
+  var __filename = fileURLToPath(import.meta.url);
+  var __dirname = dirname(__filename);
+  var CACHE_FILE = path.join(__dirname, "image-cache.json");
+  var imageCache = {};
+  var loadCache = async () => {
+    try {
+      if (await import_fs_extra.default.pathExists(CACHE_FILE)) {
+        const data = await import_fs_extra.default.readFile(CACHE_FILE, "utf-8");
+        imageCache = JSON.parse(data);
+      }
+    } catch (error) {
+      console.error("\u52A0\u8F7D\u7F13\u5B58\u5931\u8D25:", error);
+    }
+  };
+  var saveCache = async () => {
+    try {
+      await import_fs_extra.default.writeFile(CACHE_FILE, JSON.stringify(imageCache, null, 2));
+    } catch (error) {
+      console.error("\u4FDD\u5B58\u7F13\u5B58\u5931\u8D25:", error);
+    }
+  };
+  loadCache();
   var isEdgeOne = process.cwd().includes(".edgeone");
   console.log("Current working directory:", process.cwd());
   console.log("Is EdgeOne environment:", isEdgeOne);
-  var imageDirPath = "dist/assets/images";
+  var imageDirPath = "../../dist/assets/images";
   console.log("Image directory path:", imageDirPath);
   if (!import_fs_extra.default.existsSync(imageDirPath)) {
     console.error("Image directory does not exist:", imageDirPath);
@@ -33531,21 +33616,41 @@ var mod_1 = (() => {
     }
   });
   app.use("/images", import_express.default.static(imageDirPath));
-  app.get("/api/categories", async (req, res) => {
+  app.post("/api/update-image-cache", async (req, res) => {
     try {
-      const imagesDir = imageDirPath;
-      const items = await import_fs_extra.default.readdir(imagesDir);
-      const categories = [];
-      for (const item of items) {
-        const itemPath = path.join(imagesDir, item);
-        const stat = await import_fs_extra.default.stat(itemPath);
-        if (stat.isDirectory()) {
-          categories.push({
-            label: item,
-            value: item
+      let body = "";
+      req.on("data", (chunk) => {
+        body += chunk.toString();
+      });
+      req.on("end", async () => {
+        try {
+          const data = JSON.parse(body);
+          imageCache = data;
+          await saveCache();
+          res.json({
+            success: true,
+            message: "\u56FE\u7247\u7F13\u5B58\u66F4\u65B0\u6210\u529F"
+          });
+        } catch (error) {
+          console.error("\u66F4\u65B0\u7F13\u5B58\u5931\u8D25:", error);
+          res.status(500).json({
+            error: "\u66F4\u65B0\u7F13\u5B58\u5931\u8D25"
           });
         }
-      }
+      });
+    } catch (error) {
+      console.error("\u5904\u7406\u8BF7\u6C42\u5931\u8D25:", error);
+      res.status(500).json({
+        error: "\u5904\u7406\u8BF7\u6C42\u5931\u8D25"
+      });
+    }
+  });
+  app.get("/api/categories", async (req, res) => {
+    try {
+      const categories = Object.keys(imageCache).map((category) => ({
+        label: category,
+        value: category
+      }));
       res.json(categories);
     } catch (error) {
       console.error("\u83B7\u53D6\u5206\u7C7B\u5931\u8D25:", error);
@@ -33562,14 +33667,10 @@ var mod_1 = (() => {
         limit = 20,
         search
       } = req.query;
-      const imagesDir = imageDirPath;
       let allImages = [];
       if (category && category !== "all") {
-        const categoryDir = path.join(imagesDir, category);
-        if (await import_fs_extra.default.pathExists(categoryDir)) {
-          const files = await import_fs_extra.default.readdir(categoryDir);
-          const imageFiles = files.filter((file) => /\.(png|ico|jpg|jpeg|gif|svg)$/i.test(file));
-          allImages = imageFiles.map((file) => ({
+        if (imageCache[category]) {
+          allImages = imageCache[category].map((file) => ({
             name: file,
             category,
             url: `/images/${category}/${file}`,
@@ -33577,21 +33678,14 @@ var mod_1 = (() => {
           }));
         }
       } else {
-        const categories = await import_fs_extra.default.readdir(imagesDir);
-        for (const cat of categories) {
-          const catPath = path.join(imagesDir, cat);
-          const stat = await import_fs_extra.default.stat(catPath);
-          if (stat.isDirectory()) {
-            const files = await import_fs_extra.default.readdir(catPath);
-            const imageFiles = files.filter((file) => /\.(png|ico|jpg|jpeg|gif|svg)$/i.test(file));
-            const categoryImages = imageFiles.map((file) => ({
-              name: file,
-              category: cat,
-              url: `/images/${cat}/${file}`,
-              path: `${cat}/${file}`
-            }));
-            allImages = allImages.concat(categoryImages);
-          }
+        for (const cat in imageCache) {
+          const categoryImages = imageCache[cat].map((file) => ({
+            name: file,
+            category: cat,
+            url: `/images/${cat}/${file}`,
+            path: `${cat}/${file}`
+          }));
+          allImages = allImages.concat(categoryImages);
         }
       }
       if (search && search.trim()) {
@@ -33753,6 +33847,36 @@ var mod_1 = (() => {
       });
     }
   });
+  var printDirectoryStructure = async (dir, prefix = "") => {
+    const items = await import_fs_extra.default.readdir(dir);
+    let structure = "";
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const fullPath = path.join(dir, item);
+      const stat = await import_fs_extra.default.stat(fullPath);
+      const isLast = i === items.length - 1;
+      if (stat.isDirectory()) {
+        structure += `${prefix}${isLast ? "\u2514\u2500\u2500 " : "\u251C\u2500\u2500 "}\u{1F4C1} ${item}/
+`;
+        structure += await printDirectoryStructure(fullPath, `${prefix}${isLast ? "    " : "\u2502   "}`);
+      } else {
+        structure += `${prefix}${isLast ? "\u2514\u2500\u2500 " : "\u251C\u2500\u2500 "}\u{1F4C4} ${item}
+`;
+      }
+    }
+    return structure;
+  };
+  var printProjectStructure = async () => {
+    try {
+      const rootDir = process.cwd();
+      const structure = await printDirectoryStructure(rootDir);
+      console.log("\u9879\u76EE\u76EE\u5F55\u7ED3\u6784:");
+      console.log(structure);
+    } catch (error) {
+      console.error("\u6253\u5370\u76EE\u5F55\u7ED3\u6784\u5931\u8D25:", error);
+    }
+  };
+  printProjectStructure();
   app.get("*", (req, res) => {
     res.sendFile("../../dist/index.html");
   });

@@ -3,9 +3,40 @@ import cors from 'cors';
 import path from 'path';
 import fs from 'fs-extra';
 import multer from 'multer';
-
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// 获取当前模块路径
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
+
+// 缓存文件路径
+const CACHE_FILE = path.join(__dirname, 'image-cache.json');
+let imageCache = {};
+
+// 加载缓存
+const loadCache = async () => {
+  try {
+    if (await fs.pathExists(CACHE_FILE)) {
+      const data = await fs.readFile(CACHE_FILE, 'utf-8');
+      imageCache = JSON.parse(data);
+    }
+  } catch (error) {
+    console.error('加载缓存失败:', error);
+  }
+};
+
+// 保存缓存
+const saveCache = async () => {
+  try {
+    await fs.writeFile(CACHE_FILE, JSON.stringify(imageCache, null, 2));
+  } catch (error) {
+    console.error('保存缓存失败:', error);
+  }
+};
+
+// 初始化时加载缓存
+loadCache();
 
 // 检测EdgeOne环境并设置正确的图片目录路径
 const isEdgeOne = process.cwd().includes('.edgeone');
@@ -126,24 +157,38 @@ const ensureDirectories = async () => {
 // API 路由（与原文件相同的 API 路由）
 // ... 这里包含所有原有的 API 路由 ...
 
+// 接收前端发送的分类和图片信息
+app.post('/api/update-image-cache', async (req, res) => {
+  try {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+    });
+
+    req.on('end', async () => {
+      try {
+        const data = JSON.parse(body);
+        imageCache = data;
+        await saveCache();
+        res.json({ success: true, message: '图片缓存更新成功' });
+      } catch (error) {
+        console.error('更新缓存失败:', error);
+        res.status(500).json({ error: '更新缓存失败' });
+      }
+    });
+  } catch (error) {
+    console.error('处理请求失败:', error);
+    res.status(500).json({ error: '处理请求失败' });
+  }
+});
+
 // 获取所有图片分类
 app.get('/api/categories', async (req, res) => {
   try {
-    const imagesDir = imageDirPath;
-    const items = await fs.readdir(imagesDir);
-    const categories = [];
-
-    for (const item of items) {
-      const itemPath = path.join(imagesDir, item);
-      const stat = await fs.stat(itemPath);
-      if (stat.isDirectory()) {
-        categories.push({
-          label: item,
-          value: item
-        });
-      }
-    }
-
+    const categories = Object.keys(imageCache).map(category => ({
+      label: category,
+      value: category
+    }));
     res.json(categories);
   } catch (error) {
     console.error('获取分类失败:', error);
@@ -155,19 +200,12 @@ app.get('/api/categories', async (req, res) => {
 app.get('/api/images', async (req, res) => {
   try {
     const { category, page = 1, limit = 20, search } = req.query;
-    const imagesDir = imageDirPath;
-
+    
     let allImages = [];
-
+    
     if (category && category !== 'all') {
-      const categoryDir = path.join(imagesDir, category);
-      if (await fs.pathExists(categoryDir)) {
-        const files = await fs.readdir(categoryDir);
-        const imageFiles = files.filter(file =>
-          /\.(png|ico|jpg|jpeg|gif|svg)$/i.test(file)
-        );
-
-        allImages = imageFiles.map(file => ({
+      if (imageCache[category]) {
+        allImages = imageCache[category].map(file => ({
           name: file,
           category: category,
           url: `/images/${category}/${file}`,
@@ -175,27 +213,14 @@ app.get('/api/images', async (req, res) => {
         }));
       }
     } else {
-      const categories = await fs.readdir(imagesDir);
-
-      for (const cat of categories) {
-        const catPath = path.join(imagesDir, cat);
-        const stat = await fs.stat(catPath);
-
-        if (stat.isDirectory()) {
-          const files = await fs.readdir(catPath);
-          const imageFiles = files.filter(file =>
-            /\.(png|ico|jpg|jpeg|gif|svg)$/i.test(file)
-          );
-
-          const categoryImages = imageFiles.map(file => ({
-            name: file,
-            category: cat,
-            url: `/images/${cat}/${file}`,
-            path: `${cat}/${file}`
-          }));
-
-          allImages = allImages.concat(categoryImages);
-        }
+      for (const cat in imageCache) {
+        const categoryImages = imageCache[cat].map(file => ({
+          name: file,
+          category: cat,
+          url: `/images/${cat}/${file}`,
+          path: `${cat}/${file}`
+        }));
+        allImages = allImages.concat(categoryImages);
       }
     }
 
@@ -388,7 +413,7 @@ printProjectStructure();
 
 // 生产环境：所有其他路由都返回 index.html（SPA 路由支持）
 app.get('*', (req, res) => {
-  res.sendFile('../../dist/index.html');
+  res.sendFile('/index.html');
 });
 
 export default app;
