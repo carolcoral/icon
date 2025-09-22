@@ -1,0 +1,1894 @@
+{
+  "docker": [
+    {
+      "name": "aipan.png",
+      "path": "/assets/images/docker/aipan.png",
+      "displayPath": "/docker/aipan",
+      "category": "docker"
+    },
+    {
+      "name": "alist.png",
+      "path": "/assets/images/docker/alist.png",
+      "displayPath": "/docker/alist",
+      "category": "docker"
+    },
+    {
+      "name": "artalk.png",
+      "path": "/assets/images/docker/artalk.png",
+      "displayPath": "/docker/artalk",
+      "category": "docker"
+    },
+    {
+      "name": "audiobookshelf.png",
+      "path": "/assets/images/docker/audiobookshelf.png",
+      "displayPath": "/docker/audiobookshelf",
+      "category": "docker"
+    },
+    {
+      "name": "autopiano.png",
+      "path": "/assets/images/docker/autopiano.png",
+      "displayPath": "/docker/autopiano",
+      "category": "docker"
+    },
+    {
+      "name": "calibre.png",
+      "path": "/assets/images/docker/calibre.png",
+      "displayPath": "/docker/calibre",
+      "category": "docker"
+    },
+    {
+      "name": "ChineseSubFinder.png",
+      "path": "/assets/images/docker/ChineseSubFinder.png",
+      "displayPath": "/docker/ChineseSubFinder",
+      "category": "docker"
+    },
+    {
+      "name": "clouddrive2.png",
+      "path": "/assets/images/docker/clouddrive2.png",
+      "displayPath": "/docker/clouddrive2",
+      "category": "docker"
+    },
+    {
+      "name": "cloudreve.png",
+      "path": "/assets/images/docker/cloudreve.png",
+      "displayPath": "/docker/cloudreve",
+      "category": "docker"
+    },
+    {
+      "name": "cookiecloud.png",
+      "path": "/assets/images/docker/cookiecloud.png",
+      "displayPath": "/docker/cookiecloud",
+      "category": "docker"
+    },
+    {
+      "name": "dataease.png",
+      "path": "/assets/images/docker/dataease.png",
+      "displayPath": "/docker/dataease",
+      "category": "docker"
+    },
+    {
+      "name": "DdbBackup.png",
+      "path": "/assets/images/docker/DdbBackup.png",
+      "displayPath": "/docker/DdbBackup",
+      "category": "docker"
+    },
+    {
+      "name": "ddns-go.png",
+      "path": "/assets/images/docker/ddns-go.png",
+      "displayPath": "/docker/ddns-go",
+      "category": "docker"
+    },
+    {
+      "name": "ddnsto.png",
+      "path": "/assets/images/docker/ddnsto.png",
+      "displayPath": "/docker/ddnsto",
+      "category": "docker"
+    },
+    {
+      "name": "deepin.png",
+      "path": "/assets/images/docker/deepin.png",
+      "displayPath": "/docker/deepin",
+      "category": "docker"
+    },
+    {
+      "name": "docker.png",
+      "path": "/assets/images/docker/docker.png",
+      "displayPath": "/docker/docker",
+      "category": "docker"
+    },
+    {
+      "name": "dsback.png",
+      "path": "/assets/images/docker/dsback.png",
+      "displayPath": "/docker/dsback",
+      "category": "docker"
+    },
+    {
+      "name": "EmbyServer.png",
+      "path": "/assets/images/docker/EmbyServer.png",
+      "displayPath": "/docker/EmbyServer",
+      "category": "docker"
+    },
+    {
+      "name": "excalidraw.png",
+      "path": "/assets/images/docker/excalidraw.png",
+      "displayPath": "/docker/excalidraw",
+      "category": "docker"
+    },
+    {
+      "name": "filebrowser.png",
+      "path": "/assets/images/docker/filebrowser.png",
+      "displayPath": "/docker/filebrowser",
+      "category": "docker"
+    },
+    {
+      "name": "filecodebox.png",
+      "path": "/assets/images/docker/filecodebox.png",
+      "displayPath": "/docker/filecodebox",
+      "category": "docker"
+    },
+    {
+      "name": "filerun.png",
+      "path": "/assets/images/docker/filerun.png",
+      "displayPath": "/docker/filerun",
+      "category": "docker"
+    },
+    {
+      "name": "finnhub.png",
+      "path": "/assets/images/docker/finnhub.png",
+      "displayPath": "/docker/finnhub",
+      "category": "docker"
+    },
+    {
+      "name": "focalboard.png",
+      "path": "/assets/images/docker/focalboard.png",
+      "displayPath": "/docker/focalboard",
+      "category": "docker"
+    },
+    {
+      "name": "frpc.png",
+      "path": "/assets/images/docker/frpc.png",
+      "displayPath": "/docker/frpc",
+      "category": "docker"
+    },
+    {
+      "name": "frps.png",
+      "path": "/assets/images/docker/frps.png",
+      "displayPath": "/docker/frps",
+      "category": "docker"
+    },
+    {
+      "name": "gitea.png",
+      "path": "/assets/images/docker/gitea.png",
+      "displayPath": "/docker/gitea",
+      "category": "docker"
+    },
+    {
+      "name": "grafana.png",
+      "path": "/assets/images/docker/grafana.png",
+      "displayPath": "/docker/grafana",
+      "category": "docker"
+    },
+    {
+      "name": "halo.png",
+      "path": "/assets/images/docker/halo.png",
+      "displayPath": "/docker/halo",
+      "category": "docker"
+    },
+    {
+      "name": "HighAvailability.png",
+      "path": "/assets/images/docker/HighAvailability.png",
+      "displayPath": "/docker/HighAvailability",
+      "category": "docker"
+    },
+    {
+      "name": "homarr.png",
+      "path": "/assets/images/docker/homarr.png",
+      "displayPath": "/docker/homarr",
+      "category": "docker"
+    },
+    {
+      "name": "iyuu.png",
+      "path": "/assets/images/docker/iyuu.png",
+      "displayPath": "/docker/iyuu",
+      "category": "docker"
+    },
+    {
+      "name": "jackett.png",
+      "path": "/assets/images/docker/jackett.png",
+      "displayPath": "/docker/jackett",
+      "category": "docker"
+    },
+    {
+      "name": "jellyfin.png",
+      "path": "/assets/images/docker/jellyfin.png",
+      "displayPath": "/docker/jellyfin",
+      "category": "docker"
+    },
+    {
+      "name": "kiwix-serve.png",
+      "path": "/assets/images/docker/kiwix-serve.png",
+      "displayPath": "/docker/kiwix-serve",
+      "category": "docker"
+    },
+    {
+      "name": "kodcloud.png",
+      "path": "/assets/images/docker/kodcloud.png",
+      "displayPath": "/docker/kodcloud",
+      "category": "docker"
+    },
+    {
+      "name": "komga.png",
+      "path": "/assets/images/docker/komga.png",
+      "displayPath": "/docker/komga",
+      "category": "docker"
+    },
+    {
+      "name": "kplayer.png",
+      "path": "/assets/images/docker/kplayer.png",
+      "displayPath": "/docker/kplayer",
+      "category": "docker"
+    },
+    {
+      "name": "lanraragi.png",
+      "path": "/assets/images/docker/lanraragi.png",
+      "displayPath": "/docker/lanraragi",
+      "category": "docker"
+    },
+    {
+      "name": "librephotos.png",
+      "path": "/assets/images/docker/librephotos.png",
+      "displayPath": "/docker/librephotos",
+      "category": "docker"
+    },
+    {
+      "name": "linkease.png",
+      "path": "/assets/images/docker/linkease.png",
+      "displayPath": "/docker/linkease",
+      "category": "docker"
+    },
+    {
+      "name": "lsky.png",
+      "path": "/assets/images/docker/lsky.png",
+      "displayPath": "/docker/lsky",
+      "category": "docker"
+    },
+    {
+      "name": "lskypro.png",
+      "path": "/assets/images/docker/lskypro.png",
+      "displayPath": "/docker/lskypro",
+      "category": "docker"
+    },
+    {
+      "name": "minio2.png",
+      "path": "/assets/images/docker/minio2.png",
+      "displayPath": "/docker/minio2",
+      "category": "docker"
+    },
+    {
+      "name": "moviepilot.png",
+      "path": "/assets/images/docker/moviepilot.png",
+      "displayPath": "/docker/moviepilot",
+      "category": "docker"
+    },
+    {
+      "name": "mt-photos.png",
+      "path": "/assets/images/docker/mt-photos.png",
+      "displayPath": "/docker/mt-photos",
+      "category": "docker"
+    },
+    {
+      "name": "nastool.png",
+      "path": "/assets/images/docker/nastool.png",
+      "displayPath": "/docker/nastool",
+      "category": "docker"
+    },
+    {
+      "name": "nastool_banner.png",
+      "path": "/assets/images/docker/nastool_banner.png",
+      "displayPath": "/docker/nastool_banner",
+      "category": "docker"
+    },
+    {
+      "name": "navidrome.png",
+      "path": "/assets/images/docker/navidrome.png",
+      "displayPath": "/docker/navidrome",
+      "category": "docker"
+    },
+    {
+      "name": "netdata.png",
+      "path": "/assets/images/docker/netdata.png",
+      "displayPath": "/docker/netdata",
+      "category": "docker"
+    },
+    {
+      "name": "nextcloud.png",
+      "path": "/assets/images/docker/nextcloud.png",
+      "displayPath": "/docker/nextcloud",
+      "category": "docker"
+    },
+    {
+      "name": "npc.png",
+      "path": "/assets/images/docker/npc.png",
+      "displayPath": "/docker/npc",
+      "category": "docker"
+    },
+    {
+      "name": "openkylin.png",
+      "path": "/assets/images/docker/openkylin.png",
+      "displayPath": "/docker/openkylin",
+      "category": "docker"
+    },
+    {
+      "name": "premium-mobile-v2.png",
+      "path": "/assets/images/docker/premium-mobile-v2.png",
+      "displayPath": "/docker/premium-mobile-v2",
+      "category": "docker"
+    },
+    {
+      "name": "pt_helper.png",
+      "path": "/assets/images/docker/pt_helper.png",
+      "displayPath": "/docker/pt_helper",
+      "category": "docker"
+    },
+    {
+      "name": "qbittorrent.png",
+      "path": "/assets/images/docker/qbittorrent.png",
+      "displayPath": "/docker/qbittorrent",
+      "category": "docker"
+    },
+    {
+      "name": "qiandao.png",
+      "path": "/assets/images/docker/qiandao.png",
+      "displayPath": "/docker/qiandao",
+      "category": "docker"
+    },
+    {
+      "name": "qinglong.png",
+      "path": "/assets/images/docker/qinglong.png",
+      "displayPath": "/docker/qinglong",
+      "category": "docker"
+    },
+    {
+      "name": "reader.png",
+      "path": "/assets/images/docker/reader.png",
+      "displayPath": "/docker/reader",
+      "category": "docker"
+    },
+    {
+      "name": "recorder.png",
+      "path": "/assets/images/docker/recorder.png",
+      "displayPath": "/docker/recorder",
+      "category": "docker"
+    },
+    {
+      "name": "transmission.png",
+      "path": "/assets/images/docker/transmission.png",
+      "displayPath": "/docker/transmission",
+      "category": "docker"
+    },
+    {
+      "name": "twikoo.png",
+      "path": "/assets/images/docker/twikoo.png",
+      "displayPath": "/docker/twikoo",
+      "category": "docker"
+    },
+    {
+      "name": "umami.png",
+      "path": "/assets/images/docker/umami.png",
+      "displayPath": "/docker/umami",
+      "category": "docker"
+    },
+    {
+      "name": "uptime-kuma.png",
+      "path": "/assets/images/docker/uptime-kuma.png",
+      "displayPath": "/docker/uptime-kuma",
+      "category": "docker"
+    },
+    {
+      "name": "uptimekuma.png",
+      "path": "/assets/images/docker/uptimekuma.png",
+      "displayPath": "/docker/uptimekuma",
+      "category": "docker"
+    },
+    {
+      "name": "valutwarden.png",
+      "path": "/assets/images/docker/valutwarden.png",
+      "displayPath": "/docker/valutwarden",
+      "category": "docker"
+    },
+    {
+      "name": "vaultwarden.png",
+      "path": "/assets/images/docker/vaultwarden.png",
+      "displayPath": "/docker/vaultwarden",
+      "category": "docker"
+    }
+  ],
+  "github": [
+    {
+      "name": "arctic-code-vault-contributor-default.png",
+      "path": "/assets/images/github/arctic-code-vault-contributor-default.png",
+      "displayPath": "/github/arctic-code-vault-contributor-default",
+      "category": "github"
+    },
+    {
+      "name": "badge--acv-64.png",
+      "path": "/assets/images/github/badge--acv-64.png",
+      "displayPath": "/github/badge--acv-64",
+      "category": "github"
+    },
+    {
+      "name": "badge--acv-64.svg",
+      "path": "/assets/images/github/badge--acv-64.svg",
+      "displayPath": "/github/badge--acv-64",
+      "category": "github"
+    },
+    {
+      "name": "badge--mars-64.png",
+      "path": "/assets/images/github/badge--mars-64.png",
+      "displayPath": "/github/badge--mars-64",
+      "category": "github"
+    },
+    {
+      "name": "badge--sponsors-64.png",
+      "path": "/assets/images/github/badge--sponsors-64.png",
+      "displayPath": "/github/badge--sponsors-64",
+      "category": "github"
+    },
+    {
+      "name": "badge-arctic-code-vault-small.png",
+      "path": "/assets/images/github/badge-arctic-code-vault-small.png",
+      "displayPath": "/github/badge-arctic-code-vault-small",
+      "category": "github"
+    },
+    {
+      "name": "badge-mars-2020-small.png",
+      "path": "/assets/images/github/badge-mars-2020-small.png",
+      "displayPath": "/github/badge-mars-2020-small",
+      "category": "github"
+    },
+    {
+      "name": "badge-sponsors-small.png",
+      "path": "/assets/images/github/badge-sponsors-small.png",
+      "displayPath": "/github/badge-sponsors-small",
+      "category": "github"
+    },
+    {
+      "name": "galaxy-brain-bronze.png",
+      "path": "/assets/images/github/galaxy-brain-bronze.png",
+      "displayPath": "/github/galaxy-brain-bronze",
+      "category": "github"
+    },
+    {
+      "name": "galaxy-brain-default.png",
+      "path": "/assets/images/github/galaxy-brain-default.png",
+      "displayPath": "/github/galaxy-brain-default",
+      "category": "github"
+    },
+    {
+      "name": "galaxy-brain-gold.png",
+      "path": "/assets/images/github/galaxy-brain-gold.png",
+      "displayPath": "/github/galaxy-brain-gold",
+      "category": "github"
+    },
+    {
+      "name": "galaxy-brain-silver.png",
+      "path": "/assets/images/github/galaxy-brain-silver.png",
+      "displayPath": "/github/galaxy-brain-silver",
+      "category": "github"
+    },
+    {
+      "name": "github-2.png",
+      "path": "/assets/images/github/github-2.png",
+      "displayPath": "/github/github-2",
+      "category": "github"
+    },
+    {
+      "name": "github-3.png",
+      "path": "/assets/images/github/github-3.png",
+      "displayPath": "/github/github-3",
+      "category": "github"
+    },
+    {
+      "name": "github-light.png",
+      "path": "/assets/images/github/github-light.png",
+      "displayPath": "/github/github-light",
+      "category": "github"
+    },
+    {
+      "name": "github.png",
+      "path": "/assets/images/github/github.png",
+      "displayPath": "/github/github",
+      "category": "github"
+    },
+    {
+      "name": "mars-2020-contributor-default.png",
+      "path": "/assets/images/github/mars-2020-contributor-default.png",
+      "displayPath": "/github/mars-2020-contributor-default",
+      "category": "github"
+    },
+    {
+      "name": "pair-extraordinaire-bronze.png",
+      "path": "/assets/images/github/pair-extraordinaire-bronze.png",
+      "displayPath": "/github/pair-extraordinaire-bronze",
+      "category": "github"
+    },
+    {
+      "name": "pair-extraordinaire-default.png",
+      "path": "/assets/images/github/pair-extraordinaire-default.png",
+      "displayPath": "/github/pair-extraordinaire-default",
+      "category": "github"
+    },
+    {
+      "name": "pair-extraordinaire-gold.png",
+      "path": "/assets/images/github/pair-extraordinaire-gold.png",
+      "displayPath": "/github/pair-extraordinaire-gold",
+      "category": "github"
+    },
+    {
+      "name": "pair-extraordinaire-silver.png",
+      "path": "/assets/images/github/pair-extraordinaire-silver.png",
+      "displayPath": "/github/pair-extraordinaire-silver",
+      "category": "github"
+    },
+    {
+      "name": "public-sponsor-default.png",
+      "path": "/assets/images/github/public-sponsor-default.png",
+      "displayPath": "/github/public-sponsor-default",
+      "category": "github"
+    },
+    {
+      "name": "pull-shark-bronze.png",
+      "path": "/assets/images/github/pull-shark-bronze.png",
+      "displayPath": "/github/pull-shark-bronze",
+      "category": "github"
+    },
+    {
+      "name": "pull-shark-default.png",
+      "path": "/assets/images/github/pull-shark-default.png",
+      "displayPath": "/github/pull-shark-default",
+      "category": "github"
+    },
+    {
+      "name": "pull-shark-gold.png",
+      "path": "/assets/images/github/pull-shark-gold.png",
+      "displayPath": "/github/pull-shark-gold",
+      "category": "github"
+    },
+    {
+      "name": "pull-shark-silver.png",
+      "path": "/assets/images/github/pull-shark-silver.png",
+      "displayPath": "/github/pull-shark-silver",
+      "category": "github"
+    },
+    {
+      "name": "quickdraw-default--dark.png",
+      "path": "/assets/images/github/quickdraw-default--dark.png",
+      "displayPath": "/github/quickdraw-default--dark",
+      "category": "github"
+    },
+    {
+      "name": "quickdraw-default--light-medium.png",
+      "path": "/assets/images/github/quickdraw-default--light-medium.png",
+      "displayPath": "/github/quickdraw-default--light-medium",
+      "category": "github"
+    },
+    {
+      "name": "quickdraw-default--light.png",
+      "path": "/assets/images/github/quickdraw-default--light.png",
+      "displayPath": "/github/quickdraw-default--light",
+      "category": "github"
+    },
+    {
+      "name": "quickdraw-default--medium-dark.png",
+      "path": "/assets/images/github/quickdraw-default--medium-dark.png",
+      "displayPath": "/github/quickdraw-default--medium-dark",
+      "category": "github"
+    },
+    {
+      "name": "quickdraw-default--medium.png",
+      "path": "/assets/images/github/quickdraw-default--medium.png",
+      "displayPath": "/github/quickdraw-default--medium",
+      "category": "github"
+    },
+    {
+      "name": "quickdraw-default.png",
+      "path": "/assets/images/github/quickdraw-default.png",
+      "displayPath": "/github/quickdraw-default",
+      "category": "github"
+    },
+    {
+      "name": "starstruck-bronze.png",
+      "path": "/assets/images/github/starstruck-bronze.png",
+      "displayPath": "/github/starstruck-bronze",
+      "category": "github"
+    },
+    {
+      "name": "starstruck-default--dark.png",
+      "path": "/assets/images/github/starstruck-default--dark.png",
+      "displayPath": "/github/starstruck-default--dark",
+      "category": "github"
+    },
+    {
+      "name": "starstruck-default--light-medium.png",
+      "path": "/assets/images/github/starstruck-default--light-medium.png",
+      "displayPath": "/github/starstruck-default--light-medium",
+      "category": "github"
+    },
+    {
+      "name": "starstruck-default--light.png",
+      "path": "/assets/images/github/starstruck-default--light.png",
+      "displayPath": "/github/starstruck-default--light",
+      "category": "github"
+    },
+    {
+      "name": "starstruck-default--medium-dark.png",
+      "path": "/assets/images/github/starstruck-default--medium-dark.png",
+      "displayPath": "/github/starstruck-default--medium-dark",
+      "category": "github"
+    },
+    {
+      "name": "starstruck-default--medium.png",
+      "path": "/assets/images/github/starstruck-default--medium.png",
+      "displayPath": "/github/starstruck-default--medium",
+      "category": "github"
+    },
+    {
+      "name": "starstruck-default.png",
+      "path": "/assets/images/github/starstruck-default.png",
+      "displayPath": "/github/starstruck-default",
+      "category": "github"
+    },
+    {
+      "name": "starstruck-gold.png",
+      "path": "/assets/images/github/starstruck-gold.png",
+      "displayPath": "/github/starstruck-gold",
+      "category": "github"
+    },
+    {
+      "name": "starstruck-silver.png",
+      "path": "/assets/images/github/starstruck-silver.png",
+      "displayPath": "/github/starstruck-silver",
+      "category": "github"
+    },
+    {
+      "name": "yolo-default.png",
+      "path": "/assets/images/github/yolo-default.png",
+      "displayPath": "/github/yolo-default",
+      "category": "github"
+    }
+  ],
+  "other": [
+    {
+      "name": "1Panel.png",
+      "path": "/assets/images/other/1Panel.png",
+      "displayPath": "/other/1Panel",
+      "category": "other"
+    },
+    {
+      "name": "adminer.png",
+      "path": "/assets/images/other/adminer.png",
+      "displayPath": "/other/adminer",
+      "category": "other"
+    },
+    {
+      "name": "aliyundrive.png",
+      "path": "/assets/images/other/aliyundrive.png",
+      "displayPath": "/other/aliyundrive",
+      "category": "other"
+    },
+    {
+      "name": "aliyunpan.png",
+      "path": "/assets/images/other/aliyunpan.png",
+      "displayPath": "/other/aliyunpan",
+      "category": "other"
+    },
+    {
+      "name": "ams.png",
+      "path": "/assets/images/other/ams.png",
+      "displayPath": "/other/ams",
+      "category": "other"
+    },
+    {
+      "name": "answer.png",
+      "path": "/assets/images/other/answer.png",
+      "displayPath": "/other/answer",
+      "category": "other"
+    },
+    {
+      "name": "backup-x.png",
+      "path": "/assets/images/other/backup-x.png",
+      "displayPath": "/other/backup-x",
+      "category": "other"
+    },
+    {
+      "name": "baidunetdisk.png",
+      "path": "/assets/images/other/baidunetdisk.png",
+      "displayPath": "/other/baidunetdisk",
+      "category": "other"
+    },
+    {
+      "name": "baota.png",
+      "path": "/assets/images/other/baota.png",
+      "displayPath": "/other/baota",
+      "category": "other"
+    },
+    {
+      "name": "bgmi.png",
+      "path": "/assets/images/other/bgmi.png",
+      "displayPath": "/other/bgmi",
+      "category": "other"
+    },
+    {
+      "name": "bilibili.png",
+      "path": "/assets/images/other/bilibili.png",
+      "displayPath": "/other/bilibili",
+      "category": "other"
+    },
+    {
+      "name": "bililive-go.png",
+      "path": "/assets/images/other/bililive-go.png",
+      "displayPath": "/other/bililive-go",
+      "category": "other"
+    },
+    {
+      "name": "btcpay-server.png",
+      "path": "/assets/images/other/btcpay-server.png",
+      "displayPath": "/other/btcpay-server",
+      "category": "other"
+    },
+    {
+      "name": "c.png",
+      "path": "/assets/images/other/c.png",
+      "displayPath": "/other/c",
+      "category": "other"
+    },
+    {
+      "name": "centos.png",
+      "path": "/assets/images/other/centos.png",
+      "displayPath": "/other/centos",
+      "category": "other"
+    },
+    {
+      "name": "certd.png",
+      "path": "/assets/images/other/certd.png",
+      "displayPath": "/other/certd",
+      "category": "other"
+    },
+    {
+      "name": "chfs.png",
+      "path": "/assets/images/other/chfs.png",
+      "displayPath": "/other/chfs",
+      "category": "other"
+    },
+    {
+      "name": "cloudflare.png",
+      "path": "/assets/images/other/cloudflare.png",
+      "displayPath": "/other/cloudflare",
+      "category": "other"
+    },
+    {
+      "name": "csdn.png",
+      "path": "/assets/images/other/csdn.png",
+      "displayPath": "/other/csdn",
+      "category": "other"
+    },
+    {
+      "name": "dashdot.png",
+      "path": "/assets/images/other/dashdot.png",
+      "displayPath": "/other/dashdot",
+      "category": "other"
+    },
+    {
+      "name": "dbgate.png",
+      "path": "/assets/images/other/dbgate.png",
+      "displayPath": "/other/dbgate",
+      "category": "other"
+    },
+    {
+      "name": "domainsite.png",
+      "path": "/assets/images/other/domainsite.png",
+      "displayPath": "/other/domainsite",
+      "category": "other"
+    },
+    {
+      "name": "duplicati.png",
+      "path": "/assets/images/other/duplicati.png",
+      "displayPath": "/other/duplicati",
+      "category": "other"
+    },
+    {
+      "name": "element.png",
+      "path": "/assets/images/other/element.png",
+      "displayPath": "/other/element",
+      "category": "other"
+    },
+    {
+      "name": "fgc.png",
+      "path": "/assets/images/other/fgc.png",
+      "displayPath": "/other/fgc",
+      "category": "other"
+    },
+    {
+      "name": "flare.png",
+      "path": "/assets/images/other/flare.png",
+      "displayPath": "/other/flare",
+      "category": "other"
+    },
+    {
+      "name": "gitlab.png",
+      "path": "/assets/images/other/gitlab.png",
+      "displayPath": "/other/gitlab",
+      "category": "other"
+    },
+    {
+      "name": "gongan-icon.png",
+      "path": "/assets/images/other/gongan-icon.png",
+      "displayPath": "/other/gongan-icon",
+      "category": "other"
+    },
+    {
+      "name": "happypandax.png",
+      "path": "/assets/images/other/happypandax.png",
+      "displayPath": "/other/happypandax",
+      "category": "other"
+    },
+    {
+      "name": "heimdall.png",
+      "path": "/assets/images/other/heimdall.png",
+      "displayPath": "/other/heimdall",
+      "category": "other"
+    },
+    {
+      "name": "hertzbeat.png",
+      "path": "/assets/images/other/hertzbeat.png",
+      "displayPath": "/other/hertzbeat",
+      "category": "other"
+    },
+    {
+      "name": "icinga.png",
+      "path": "/assets/images/other/icinga.png",
+      "displayPath": "/other/icinga",
+      "category": "other"
+    },
+    {
+      "name": "icon-change administrator.png",
+      "path": "/assets/images/other/icon-change administrator.png",
+      "displayPath": "/other/icon-change administrator",
+      "category": "other"
+    },
+    {
+      "name": "icp-icon.png",
+      "path": "/assets/images/other/icp-icon.png",
+      "displayPath": "/other/icp-icon",
+      "category": "other"
+    },
+    {
+      "name": "ikuai.png",
+      "path": "/assets/images/other/ikuai.png",
+      "displayPath": "/other/ikuai",
+      "category": "other"
+    },
+    {
+      "name": "immich.png",
+      "path": "/assets/images/other/immich.png",
+      "displayPath": "/other/immich",
+      "category": "other"
+    },
+    {
+      "name": "jump.png",
+      "path": "/assets/images/other/jump.png",
+      "displayPath": "/other/jump",
+      "category": "other"
+    },
+    {
+      "name": "luckybackup.png",
+      "path": "/assets/images/other/luckybackup.png",
+      "displayPath": "/other/luckybackup",
+      "category": "other"
+    },
+    {
+      "name": "lychee.png",
+      "path": "/assets/images/other/lychee.png",
+      "displayPath": "/other/lychee",
+      "category": "other"
+    },
+    {
+      "name": "macos.png",
+      "path": "/assets/images/other/macos.png",
+      "displayPath": "/other/macos",
+      "category": "other"
+    },
+    {
+      "name": "mariadb.png",
+      "path": "/assets/images/other/mariadb.png",
+      "displayPath": "/other/mariadb",
+      "category": "other"
+    },
+    {
+      "name": "memos.png",
+      "path": "/assets/images/other/memos.png",
+      "displayPath": "/other/memos",
+      "category": "other"
+    },
+    {
+      "name": "metube.png",
+      "path": "/assets/images/other/metube.png",
+      "displayPath": "/other/metube",
+      "category": "other"
+    },
+    {
+      "name": "microsoft-edge.png",
+      "path": "/assets/images/other/microsoft-edge.png",
+      "displayPath": "/other/microsoft-edge",
+      "category": "other"
+    },
+    {
+      "name": "mongodb.png",
+      "path": "/assets/images/other/mongodb.png",
+      "displayPath": "/other/mongodb",
+      "category": "other"
+    },
+    {
+      "name": "monitor.png",
+      "path": "/assets/images/other/monitor.png",
+      "displayPath": "/other/monitor",
+      "category": "other"
+    },
+    {
+      "name": "myicon.png",
+      "path": "/assets/images/other/myicon.png",
+      "displayPath": "/other/myicon",
+      "category": "other"
+    },
+    {
+      "name": "NAS.png",
+      "path": "/assets/images/other/NAS.png",
+      "displayPath": "/other/NAS",
+      "category": "other"
+    },
+    {
+      "name": "nginx.png",
+      "path": "/assets/images/other/nginx.png",
+      "displayPath": "/other/nginx",
+      "category": "other"
+    },
+    {
+      "name": "openwrt.png",
+      "path": "/assets/images/other/openwrt.png",
+      "displayPath": "/other/openwrt",
+      "category": "other"
+    },
+    {
+      "name": "oscarr.png",
+      "path": "/assets/images/other/oscarr.png",
+      "displayPath": "/other/oscarr",
+      "category": "other"
+    },
+    {
+      "name": "others.png",
+      "path": "/assets/images/other/others.png",
+      "displayPath": "/other/others",
+      "category": "other"
+    },
+    {
+      "name": "panel.png",
+      "path": "/assets/images/other/panel.png",
+      "displayPath": "/other/panel",
+      "category": "other"
+    },
+    {
+      "name": "Phddns.png",
+      "path": "/assets/images/other/Phddns.png",
+      "displayPath": "/other/Phddns",
+      "category": "other"
+    },
+    {
+      "name": "photoprism.png",
+      "path": "/assets/images/other/photoprism.png",
+      "displayPath": "/other/photoprism",
+      "category": "other"
+    },
+    {
+      "name": "photoview.png",
+      "path": "/assets/images/other/photoview.png",
+      "displayPath": "/other/photoview",
+      "category": "other"
+    },
+    {
+      "name": "pikpak.png",
+      "path": "/assets/images/other/pikpak.png",
+      "displayPath": "/other/pikpak",
+      "category": "other"
+    },
+    {
+      "name": "pingvin-share.png",
+      "path": "/assets/images/other/pingvin-share.png",
+      "displayPath": "/other/pingvin-share",
+      "category": "other"
+    },
+    {
+      "name": "poly.png",
+      "path": "/assets/images/other/poly.png",
+      "displayPath": "/other/poly",
+      "category": "other"
+    },
+    {
+      "name": "redis-commander.png",
+      "path": "/assets/images/other/redis-commander.png",
+      "displayPath": "/other/redis-commander",
+      "category": "other"
+    },
+    {
+      "name": "redis.png",
+      "path": "/assets/images/other/redis.png",
+      "displayPath": "/other/redis",
+      "category": "other"
+    },
+    {
+      "name": "services.png",
+      "path": "/assets/images/other/services.png",
+      "displayPath": "/other/services",
+      "category": "other"
+    },
+    {
+      "name": "shumeipan.png",
+      "path": "/assets/images/other/shumeipan.png",
+      "displayPath": "/other/shumeipan",
+      "category": "other"
+    },
+    {
+      "name": "siyuan.png",
+      "path": "/assets/images/other/siyuan.png",
+      "displayPath": "/other/siyuan",
+      "category": "other"
+    },
+    {
+      "name": "Sony_BraviaSignage.png",
+      "path": "/assets/images/other/Sony_BraviaSignage.png",
+      "displayPath": "/other/Sony_BraviaSignage",
+      "category": "other"
+    },
+    {
+      "name": "speedtest.png",
+      "path": "/assets/images/other/speedtest.png",
+      "displayPath": "/other/speedtest",
+      "category": "other"
+    },
+    {
+      "name": "surveyking.png",
+      "path": "/assets/images/other/surveyking.png",
+      "displayPath": "/other/surveyking",
+      "category": "other"
+    },
+    {
+      "name": "tachidesk.png",
+      "path": "/assets/images/other/tachidesk.png",
+      "displayPath": "/other/tachidesk",
+      "category": "other"
+    },
+    {
+      "name": "tailscale.png",
+      "path": "/assets/images/other/tailscale.png",
+      "displayPath": "/other/tailscale",
+      "category": "other"
+    },
+    {
+      "name": "talebook.png",
+      "path": "/assets/images/other/talebook.png",
+      "displayPath": "/other/talebook",
+      "category": "other"
+    },
+    {
+      "name": "tieba-cloud-sign.png",
+      "path": "/assets/images/other/tieba-cloud-sign.png",
+      "displayPath": "/other/tieba-cloud-sign",
+      "category": "other"
+    },
+    {
+      "name": "tinycore.png",
+      "path": "/assets/images/other/tinycore.png",
+      "displayPath": "/other/tinycore",
+      "category": "other"
+    },
+    {
+      "name": "tldraw.png",
+      "path": "/assets/images/other/tldraw.png",
+      "displayPath": "/other/tldraw",
+      "category": "other"
+    },
+    {
+      "name": "tomcat.png",
+      "path": "/assets/images/other/tomcat.png",
+      "displayPath": "/other/tomcat",
+      "category": "other"
+    },
+    {
+      "name": "tooljet.png",
+      "path": "/assets/images/other/tooljet.png",
+      "displayPath": "/other/tooljet",
+      "category": "other"
+    },
+    {
+      "name": "ubooquity.png",
+      "path": "/assets/images/other/ubooquity.png",
+      "displayPath": "/other/ubooquity",
+      "category": "other"
+    },
+    {
+      "name": "ubuntu.png",
+      "path": "/assets/images/other/ubuntu.png",
+      "displayPath": "/other/ubuntu",
+      "category": "other"
+    },
+    {
+      "name": "ubuntukylin.png",
+      "path": "/assets/images/other/ubuntukylin.png",
+      "displayPath": "/other/ubuntukylin",
+      "category": "other"
+    },
+    {
+      "name": "urbackup.png",
+      "path": "/assets/images/other/urbackup.png",
+      "displayPath": "/other/urbackup",
+      "category": "other"
+    },
+    {
+      "name": "vertex.png",
+      "path": "/assets/images/other/vertex.png",
+      "displayPath": "/other/vertex",
+      "category": "other"
+    },
+    {
+      "name": "verysync.png",
+      "path": "/assets/images/other/verysync.png",
+      "displayPath": "/other/verysync",
+      "category": "other"
+    },
+    {
+      "name": "vikunja.png",
+      "path": "/assets/images/other/vikunja.png",
+      "displayPath": "/other/vikunja",
+      "category": "other"
+    },
+    {
+      "name": "vmwarevcenter.png",
+      "path": "/assets/images/other/vmwarevcenter.png",
+      "displayPath": "/other/vmwarevcenter",
+      "category": "other"
+    },
+    {
+      "name": "vocechat.png",
+      "path": "/assets/images/other/vocechat.png",
+      "displayPath": "/other/vocechat",
+      "category": "other"
+    },
+    {
+      "name": "vscode.png",
+      "path": "/assets/images/other/vscode.png",
+      "displayPath": "/other/vscode",
+      "category": "other"
+    },
+    {
+      "name": "wallabag.png",
+      "path": "/assets/images/other/wallabag.png",
+      "displayPath": "/other/wallabag",
+      "category": "other"
+    },
+    {
+      "name": "ward.png",
+      "path": "/assets/images/other/ward.png",
+      "displayPath": "/other/ward",
+      "category": "other"
+    },
+    {
+      "name": "webdav.png",
+      "path": "/assets/images/other/webdav.png",
+      "displayPath": "/other/webdav",
+      "category": "other"
+    },
+    {
+      "name": "windows10.png",
+      "path": "/assets/images/other/windows10.png",
+      "displayPath": "/other/windows10",
+      "category": "other"
+    },
+    {
+      "name": "windows11.png",
+      "path": "/assets/images/other/windows11.png",
+      "displayPath": "/other/windows11",
+      "category": "other"
+    },
+    {
+      "name": "winpe.png",
+      "path": "/assets/images/other/winpe.png",
+      "displayPath": "/other/winpe",
+      "category": "other"
+    },
+    {
+      "name": "wiznote.png",
+      "path": "/assets/images/other/wiznote.png",
+      "displayPath": "/other/wiznote",
+      "category": "other"
+    },
+    {
+      "name": "xunlei.png",
+      "path": "/assets/images/other/xunlei.png",
+      "displayPath": "/other/xunlei",
+      "category": "other"
+    },
+    {
+      "name": "xyhelper.png",
+      "path": "/assets/images/other/xyhelper.png",
+      "displayPath": "/other/xyhelper",
+      "category": "other"
+    },
+    {
+      "name": "yesplaymusic.png",
+      "path": "/assets/images/other/yesplaymusic.png",
+      "displayPath": "/other/yesplaymusic",
+      "category": "other"
+    },
+    {
+      "name": "zerotier.png",
+      "path": "/assets/images/other/zerotier.png",
+      "displayPath": "/other/zerotier",
+      "category": "other"
+    }
+  ],
+  "synology": [
+    {
+      "name": "ActiveBackup-GSuite.png",
+      "path": "/assets/images/synology/ActiveBackup-GSuite.png",
+      "displayPath": "/synology/ActiveBackup-GSuite",
+      "category": "synology"
+    },
+    {
+      "name": "ActiveBackup-Office365.png",
+      "path": "/assets/images/synology/ActiveBackup-Office365.png",
+      "displayPath": "/synology/ActiveBackup-Office365",
+      "category": "synology"
+    },
+    {
+      "name": "ActiveBackup.png",
+      "path": "/assets/images/synology/ActiveBackup.png",
+      "displayPath": "/synology/ActiveBackup",
+      "category": "synology"
+    },
+    {
+      "name": "ActiveInsight.png",
+      "path": "/assets/images/synology/ActiveInsight.png",
+      "displayPath": "/synology/ActiveInsight",
+      "category": "synology"
+    },
+    {
+      "name": "AIConsole.png",
+      "path": "/assets/images/synology/AIConsole.png",
+      "displayPath": "/synology/AIConsole",
+      "category": "synology"
+    },
+    {
+      "name": "AntiVirus-McAfee.png",
+      "path": "/assets/images/synology/AntiVirus-McAfee.png",
+      "displayPath": "/synology/AntiVirus-McAfee",
+      "category": "synology"
+    },
+    {
+      "name": "AntiVirus.png",
+      "path": "/assets/images/synology/AntiVirus.png",
+      "displayPath": "/synology/AntiVirus",
+      "category": "synology"
+    },
+    {
+      "name": "Apache2.4.png",
+      "path": "/assets/images/synology/Apache2.4.png",
+      "displayPath": "/synology/Apache2.4",
+      "category": "synology"
+    },
+    {
+      "name": "ArchiwareP5.png",
+      "path": "/assets/images/synology/ArchiwareP5.png",
+      "displayPath": "/synology/ArchiwareP5",
+      "category": "synology"
+    },
+    {
+      "name": "AudioStation.png",
+      "path": "/assets/images/synology/AudioStation.png",
+      "displayPath": "/synology/AudioStation",
+      "category": "synology"
+    },
+    {
+      "name": "BackupRestoreManager.png",
+      "path": "/assets/images/synology/BackupRestoreManager.png",
+      "displayPath": "/synology/BackupRestoreManager",
+      "category": "synology"
+    },
+    {
+      "name": "BitDefenderForMailPlus.png",
+      "path": "/assets/images/synology/BitDefenderForMailPlus.png",
+      "displayPath": "/synology/BitDefenderForMailPlus",
+      "category": "synology"
+    },
+    {
+      "name": "C2IdentityLDAPAgent.png",
+      "path": "/assets/images/synology/C2IdentityLDAPAgent.png",
+      "displayPath": "/synology/C2IdentityLDAPAgent",
+      "category": "synology"
+    },
+    {
+      "name": "Calendar.png",
+      "path": "/assets/images/synology/Calendar.png",
+      "displayPath": "/synology/Calendar",
+      "category": "synology"
+    },
+    {
+      "name": "Calendar2.png",
+      "path": "/assets/images/synology/Calendar2.png",
+      "displayPath": "/synology/Calendar2",
+      "category": "synology"
+    },
+    {
+      "name": "CloudSync.png",
+      "path": "/assets/images/synology/CloudSync.png",
+      "displayPath": "/synology/CloudSync",
+      "category": "synology"
+    },
+    {
+      "name": "CMS.png",
+      "path": "/assets/images/synology/CMS.png",
+      "displayPath": "/synology/CMS",
+      "category": "synology"
+    },
+    {
+      "name": "CodecPack.png",
+      "path": "/assets/images/synology/CodecPack.png",
+      "displayPath": "/synology/CodecPack",
+      "category": "synology"
+    },
+    {
+      "name": "Contacts.png",
+      "path": "/assets/images/synology/Contacts.png",
+      "displayPath": "/synology/Contacts",
+      "category": "synology"
+    },
+    {
+      "name": "ContainerManager.png",
+      "path": "/assets/images/synology/ContainerManager.png",
+      "displayPath": "/synology/ContainerManager",
+      "category": "synology"
+    },
+    {
+      "name": "ControlPanel.png",
+      "path": "/assets/images/synology/ControlPanel.png",
+      "displayPath": "/synology/ControlPanel",
+      "category": "synology"
+    },
+    {
+      "name": "DhcpServer.png",
+      "path": "/assets/images/synology/DhcpServer.png",
+      "displayPath": "/synology/DhcpServer",
+      "category": "synology"
+    },
+    {
+      "name": "DirectoryServer.png",
+      "path": "/assets/images/synology/DirectoryServer.png",
+      "displayPath": "/synology/DirectoryServer",
+      "category": "synology"
+    },
+    {
+      "name": "DirectoryServerForWindowsDomain.png",
+      "path": "/assets/images/synology/DirectoryServerForWindowsDomain.png",
+      "displayPath": "/synology/DirectoryServerForWindowsDomain",
+      "category": "synology"
+    },
+    {
+      "name": "DNSServer.png",
+      "path": "/assets/images/synology/DNSServer.png",
+      "displayPath": "/synology/DNSServer",
+      "category": "synology"
+    },
+    {
+      "name": "DocumentViewer.png",
+      "path": "/assets/images/synology/DocumentViewer.png",
+      "displayPath": "/synology/DocumentViewer",
+      "category": "synology"
+    },
+    {
+      "name": "domotz.png",
+      "path": "/assets/images/synology/domotz.png",
+      "displayPath": "/synology/domotz",
+      "category": "synology"
+    },
+    {
+      "name": "DownloadStation.png",
+      "path": "/assets/images/synology/DownloadStation.png",
+      "displayPath": "/synology/DownloadStation",
+      "category": "synology"
+    },
+    {
+      "name": "dsm6.png",
+      "path": "/assets/images/synology/dsm6.png",
+      "displayPath": "/synology/dsm6",
+      "category": "synology"
+    },
+    {
+      "name": "dsm7.png",
+      "path": "/assets/images/synology/dsm7.png",
+      "displayPath": "/synology/dsm7",
+      "category": "synology"
+    },
+    {
+      "name": "elephantdrive.png",
+      "path": "/assets/images/synology/elephantdrive.png",
+      "displayPath": "/synology/elephantdrive",
+      "category": "synology"
+    },
+    {
+      "name": "exFAT-Free.png",
+      "path": "/assets/images/synology/exFAT-Free.png",
+      "displayPath": "/synology/exFAT-Free",
+      "category": "synology"
+    },
+    {
+      "name": "FileStation.png",
+      "path": "/assets/images/synology/FileStation.png",
+      "displayPath": "/synology/FileStation",
+      "category": "synology"
+    },
+    {
+      "name": "Git.png",
+      "path": "/assets/images/synology/Git.png",
+      "displayPath": "/synology/Git",
+      "category": "synology"
+    },
+    {
+      "name": "GlacierBackup.png",
+      "path": "/assets/images/synology/GlacierBackup.png",
+      "displayPath": "/synology/GlacierBackup",
+      "category": "synology"
+    },
+    {
+      "name": "GoodSync.png",
+      "path": "/assets/images/synology/GoodSync.png",
+      "displayPath": "/synology/GoodSync",
+      "category": "synology"
+    },
+    {
+      "name": "home-assistant-logomark-color-on-light.png",
+      "path": "/assets/images/synology/home-assistant-logomark-color-on-light.png",
+      "displayPath": "/synology/home-assistant-logomark-color-on-light",
+      "category": "synology"
+    },
+    {
+      "name": "homepage-banner.png",
+      "path": "/assets/images/synology/homepage-banner.png",
+      "displayPath": "/synology/homepage-banner",
+      "category": "synology"
+    },
+    {
+      "name": "homepage.png",
+      "path": "/assets/images/synology/homepage.png",
+      "displayPath": "/synology/homepage",
+      "category": "synology"
+    },
+    {
+      "name": "HybridShare.png",
+      "path": "/assets/images/synology/HybridShare.png",
+      "displayPath": "/synology/HybridShare",
+      "category": "synology"
+    },
+    {
+      "name": "HyperBackup.png",
+      "path": "/assets/images/synology/HyperBackup.png",
+      "displayPath": "/synology/HyperBackup",
+      "category": "synology"
+    },
+    {
+      "name": "HyperBackupVault.png",
+      "path": "/assets/images/synology/HyperBackupVault.png",
+      "displayPath": "/synology/HyperBackupVault",
+      "category": "synology"
+    },
+    {
+      "name": "IDrive.png",
+      "path": "/assets/images/synology/IDrive.png",
+      "displayPath": "/synology/IDrive",
+      "category": "synology"
+    },
+    {
+      "name": "Joomla.png",
+      "path": "/assets/images/synology/Joomla.png",
+      "displayPath": "/synology/Joomla",
+      "category": "synology"
+    },
+    {
+      "name": "KodExplorer.png",
+      "path": "/assets/images/synology/KodExplorer.png",
+      "displayPath": "/synology/KodExplorer",
+      "category": "synology"
+    },
+    {
+      "name": "LogCenter.png",
+      "path": "/assets/images/synology/LogCenter.png",
+      "displayPath": "/synology/LogCenter",
+      "category": "synology"
+    },
+    {
+      "name": "MailClient.png",
+      "path": "/assets/images/synology/MailClient.png",
+      "displayPath": "/synology/MailClient",
+      "category": "synology"
+    },
+    {
+      "name": "MailPlus-Server.png",
+      "path": "/assets/images/synology/MailPlus-Server.png",
+      "displayPath": "/synology/MailPlus-Server",
+      "category": "synology"
+    },
+    {
+      "name": "MailServer.png",
+      "path": "/assets/images/synology/MailServer.png",
+      "displayPath": "/synology/MailServer",
+      "category": "synology"
+    },
+    {
+      "name": "MailStation.png",
+      "path": "/assets/images/synology/MailStation.png",
+      "displayPath": "/synology/MailStation",
+      "category": "synology"
+    },
+    {
+      "name": "MariaDB10.png",
+      "path": "/assets/images/synology/MariaDB10.png",
+      "displayPath": "/synology/MariaDB10",
+      "category": "synology"
+    },
+    {
+      "name": "MediaServer.png",
+      "path": "/assets/images/synology/MediaServer.png",
+      "displayPath": "/synology/MediaServer",
+      "category": "synology"
+    },
+    {
+      "name": "MediaWiki.png",
+      "path": "/assets/images/synology/MediaWiki.png",
+      "displayPath": "/synology/MediaWiki",
+      "category": "synology"
+    },
+    {
+      "name": "MEGAcmd.png",
+      "path": "/assets/images/synology/MEGAcmd.png",
+      "displayPath": "/synology/MEGAcmd",
+      "category": "synology"
+    },
+    {
+      "name": "MigrationAssistant.png",
+      "path": "/assets/images/synology/MigrationAssistant.png",
+      "displayPath": "/synology/MigrationAssistant",
+      "category": "synology"
+    },
+    {
+      "name": "MinimServer.png",
+      "path": "/assets/images/synology/MinimServer.png",
+      "displayPath": "/synology/MinimServer",
+      "category": "synology"
+    },
+    {
+      "name": "moontv.png",
+      "path": "/assets/images/synology/moontv.png",
+      "displayPath": "/synology/moontv",
+      "category": "synology"
+    },
+    {
+      "name": "nascab.png",
+      "path": "/assets/images/synology/nascab.png",
+      "displayPath": "/synology/nascab",
+      "category": "synology"
+    },
+    {
+      "name": "NBR-Transporter.png",
+      "path": "/assets/images/synology/NBR-Transporter.png",
+      "displayPath": "/synology/NBR-Transporter",
+      "category": "synology"
+    },
+    {
+      "name": "NBR.png",
+      "path": "/assets/images/synology/NBR.png",
+      "displayPath": "/synology/NBR",
+      "category": "synology"
+    },
+    {
+      "name": "nConnect.png",
+      "path": "/assets/images/synology/nConnect.png",
+      "displayPath": "/synology/nConnect",
+      "category": "synology"
+    },
+    {
+      "name": "Node.js_v14.png",
+      "path": "/assets/images/synology/Node.js_v14.png",
+      "displayPath": "/synology/Node.js_v14",
+      "category": "synology"
+    },
+    {
+      "name": "NoteStation.png",
+      "path": "/assets/images/synology/NoteStation.png",
+      "displayPath": "/synology/NoteStation",
+      "category": "synology"
+    },
+    {
+      "name": "nps.png",
+      "path": "/assets/images/synology/nps.png",
+      "displayPath": "/synology/nps",
+      "category": "synology"
+    },
+    {
+      "name": "OAuthService.png",
+      "path": "/assets/images/synology/OAuthService.png",
+      "displayPath": "/synology/OAuthService",
+      "category": "synology"
+    },
+    {
+      "name": "package_center_64.png",
+      "path": "/assets/images/synology/package_center_64.png",
+      "displayPath": "/synology/package_center_64",
+      "category": "synology"
+    },
+    {
+      "name": "PACS.png",
+      "path": "/assets/images/synology/PACS.png",
+      "displayPath": "/synology/PACS",
+      "category": "synology"
+    },
+    {
+      "name": "Perl.png",
+      "path": "/assets/images/synology/Perl.png",
+      "displayPath": "/synology/Perl",
+      "category": "synology"
+    },
+    {
+      "name": "PHP7.3.png",
+      "path": "/assets/images/synology/PHP7.3.png",
+      "displayPath": "/synology/PHP7.3",
+      "category": "synology"
+    },
+    {
+      "name": "phpMyAdmin.png",
+      "path": "/assets/images/synology/phpMyAdmin.png",
+      "displayPath": "/synology/phpMyAdmin",
+      "category": "synology"
+    },
+    {
+      "name": "PlexMediaServer.png",
+      "path": "/assets/images/synology/PlexMediaServer.png",
+      "displayPath": "/synology/PlexMediaServer",
+      "category": "synology"
+    },
+    {
+      "name": "postgresql.png",
+      "path": "/assets/images/synology/postgresql.png",
+      "displayPath": "/synology/postgresql",
+      "category": "synology"
+    },
+    {
+      "name": "PrestoServer.png",
+      "path": "/assets/images/synology/PrestoServer.png",
+      "displayPath": "/synology/PrestoServer",
+      "category": "synology"
+    },
+    {
+      "name": "ProxyServer.png",
+      "path": "/assets/images/synology/ProxyServer.png",
+      "displayPath": "/synology/ProxyServer",
+      "category": "synology"
+    },
+    {
+      "name": "Python2.png",
+      "path": "/assets/images/synology/Python2.png",
+      "displayPath": "/synology/Python2",
+      "category": "synology"
+    },
+    {
+      "name": "QuickConnect.png",
+      "path": "/assets/images/synology/QuickConnect.png",
+      "displayPath": "/synology/QuickConnect",
+      "category": "synology"
+    },
+    {
+      "name": "RadiusServer.png",
+      "path": "/assets/images/synology/RadiusServer.png",
+      "displayPath": "/synology/RadiusServer",
+      "category": "synology"
+    },
+    {
+      "name": "RagicBuilder.png",
+      "path": "/assets/images/synology/RagicBuilder.png",
+      "displayPath": "/synology/RagicBuilder",
+      "category": "synology"
+    },
+    {
+      "name": "ReplicationService.png",
+      "path": "/assets/images/synology/ReplicationService.png",
+      "displayPath": "/synology/ReplicationService",
+      "category": "synology"
+    },
+    {
+      "name": "ResourceMonitor.png",
+      "path": "/assets/images/synology/ResourceMonitor.png",
+      "displayPath": "/synology/ResourceMonitor",
+      "category": "synology"
+    },
+    {
+      "name": "ScsiTarget.png",
+      "path": "/assets/images/synology/ScsiTarget.png",
+      "displayPath": "/synology/ScsiTarget",
+      "category": "synology"
+    },
+    {
+      "name": "SecureSignIn.png",
+      "path": "/assets/images/synology/SecureSignIn.png",
+      "displayPath": "/synology/SecureSignIn",
+      "category": "synology"
+    },
+    {
+      "name": "SMBService.png",
+      "path": "/assets/images/synology/SMBService.png",
+      "displayPath": "/synology/SMBService",
+      "category": "synology"
+    },
+    {
+      "name": "SnapshotReplication.png",
+      "path": "/assets/images/synology/SnapshotReplication.png",
+      "displayPath": "/synology/SnapshotReplication",
+      "category": "synology"
+    },
+    {
+      "name": "Spreadsheet.png",
+      "path": "/assets/images/synology/Spreadsheet.png",
+      "displayPath": "/synology/Spreadsheet",
+      "category": "synology"
+    },
+    {
+      "name": "SSOServer.png",
+      "path": "/assets/images/synology/SSOServer.png",
+      "displayPath": "/synology/SSOServer",
+      "category": "synology"
+    },
+    {
+      "name": "StorageAnalyzer.png",
+      "path": "/assets/images/synology/StorageAnalyzer.png",
+      "displayPath": "/synology/StorageAnalyzer",
+      "category": "synology"
+    },
+    {
+      "name": "StorageManager.png",
+      "path": "/assets/images/synology/StorageManager.png",
+      "displayPath": "/synology/StorageManager",
+      "category": "synology"
+    },
+    {
+      "name": "SurveillanceStation.png",
+      "path": "/assets/images/synology/SurveillanceStation.png",
+      "displayPath": "/synology/SurveillanceStation",
+      "category": "synology"
+    },
+    {
+      "name": "SurveillanceVideoExtension.png",
+      "path": "/assets/images/synology/SurveillanceVideoExtension.png",
+      "displayPath": "/synology/SurveillanceVideoExtension",
+      "category": "synology"
+    },
+    {
+      "name": "SynoFinder.png",
+      "path": "/assets/images/synology/SynoFinder.png",
+      "displayPath": "/synology/SynoFinder",
+      "category": "synology"
+    },
+    {
+      "name": "synology-dsm.png",
+      "path": "/assets/images/synology/synology-dsm.png",
+      "displayPath": "/synology/synology-dsm",
+      "category": "synology"
+    },
+    {
+      "name": "synology-photo-station.png",
+      "path": "/assets/images/synology/synology-photo-station.png",
+      "displayPath": "/synology/synology-photo-station",
+      "category": "synology"
+    },
+    {
+      "name": "synology.png",
+      "path": "/assets/images/synology/synology.png",
+      "displayPath": "/synology/synology",
+      "category": "synology"
+    },
+    {
+      "name": "SynologyApplicationService.png",
+      "path": "/assets/images/synology/SynologyApplicationService.png",
+      "displayPath": "/synology/SynologyApplicationService",
+      "category": "synology"
+    },
+    {
+      "name": "SynologyDrive.png",
+      "path": "/assets/images/synology/SynologyDrive.png",
+      "displayPath": "/synology/SynologyDrive",
+      "category": "synology"
+    },
+    {
+      "name": "SynologyPhotos.png",
+      "path": "/assets/images/synology/SynologyPhotos.png",
+      "displayPath": "/synology/SynologyPhotos",
+      "category": "synology"
+    },
+    {
+      "name": "SynoSmisProvider.png",
+      "path": "/assets/images/synology/SynoSmisProvider.png",
+      "displayPath": "/synology/SynoSmisProvider",
+      "category": "synology"
+    },
+    {
+      "name": "TeamViewer.png",
+      "path": "/assets/images/synology/TeamViewer.png",
+      "displayPath": "/synology/TeamViewer",
+      "category": "synology"
+    },
+    {
+      "name": "TextEditor.png",
+      "path": "/assets/images/synology/TextEditor.png",
+      "displayPath": "/synology/TextEditor",
+      "category": "synology"
+    },
+    {
+      "name": "UniversalViewer.png",
+      "path": "/assets/images/synology/UniversalViewer.png",
+      "displayPath": "/synology/UniversalViewer",
+      "category": "synology"
+    },
+    {
+      "name": "USBCopy.png",
+      "path": "/assets/images/synology/USBCopy.png",
+      "displayPath": "/synology/USBCopy",
+      "category": "synology"
+    },
+    {
+      "name": "VirtualHere.png",
+      "path": "/assets/images/synology/VirtualHere.png",
+      "displayPath": "/synology/VirtualHere",
+      "category": "synology"
+    },
+    {
+      "name": "Virtualization.png",
+      "path": "/assets/images/synology/Virtualization.png",
+      "displayPath": "/synology/Virtualization",
+      "category": "synology"
+    },
+    {
+      "name": "VirtualManagement.png",
+      "path": "/assets/images/synology/VirtualManagement.png",
+      "displayPath": "/synology/VirtualManagement",
+      "category": "synology"
+    },
+    {
+      "name": "vtigerCRM.png",
+      "path": "/assets/images/synology/vtigerCRM.png",
+      "displayPath": "/synology/vtigerCRM",
+      "category": "synology"
+    },
+    {
+      "name": "WebDAVServer.png",
+      "path": "/assets/images/synology/WebDAVServer.png",
+      "displayPath": "/synology/WebDAVServer",
+      "category": "synology"
+    },
+    {
+      "name": "WebStation.png",
+      "path": "/assets/images/synology/WebStation.png",
+      "displayPath": "/synology/WebStation",
+      "category": "synology"
+    },
+    {
+      "name": "WordPress.png",
+      "path": "/assets/images/synology/WordPress.png",
+      "displayPath": "/synology/WordPress",
+      "category": "synology"
+    }
+  ]
+}

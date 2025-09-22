@@ -162,7 +162,7 @@
               </div>
               
               <!-- 图片 -->
-              <img :src="image.url" 
+              <img :src="image.path" 
                    :alt="image.name" 
                    class="max-w-full max-h-full object-contain card-image lazy-image"
                    :class="{ 'loaded': imageLoaded[image.path], 'loading': !imageLoaded[image.path] }"
@@ -251,7 +251,7 @@
           <!-- 图片展示区域 -->
           <div class="p-6 text-center bg-gradient-to-br from-gray-50 to-gray-100">
             <div class="relative inline-block">
-              <img :src="selectedImage.url" 
+              <img :src="getImageAccessUrl(selectedImage)" 
                    :alt="selectedImage.name" 
                    class="max-w-full max-h-96 mx-auto object-contain rounded-lg shadow-lg">
               
@@ -310,7 +310,7 @@
                 <span>复制链接</span>
               </button>
               
-              <a :href="selectedImage.url" 
+              <a :href="getImageAccessUrl(selectedImage)" 
                  download 
                  class="btn-primary flex items-center justify-center space-x-2 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -390,7 +390,7 @@
 
 <script>
 import { ref, reactive, onMounted, onUnmounted, computed } from 'vue'
-import axios from 'axios'
+import imageData from './assets/image-data.json'
 
 export default {
   name: 'App',
@@ -464,36 +464,43 @@ export default {
     })
 
     // 方法
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get('/express/api/categories')
-        categories.value = response.data
-      } catch (error) {
-        console.error('获取分类失败:', error)
-      }
+    const fetchCategories = () => {
+      categories.value = Object.keys(imageData).map(category => ({
+        value: category,
+        label: category
+      }))
     }
 
-    const fetchImages = async () => {
+    const fetchImages = () => {
       loading.value = true
-      resetImageLoadedState() // 重置图片加载状态
+      resetImageLoadedState()
       
       try {
-        const params = {
-          category: selectedCategory.value,
-          page: currentPage.value,
-          limit: pageSize.value
+        // 获取当前分类的所有图片
+        let allImages = []
+        if (selectedCategory.value === 'all') {
+          Object.values(imageData).forEach(categoryImages => {
+            allImages = allImages.concat(categoryImages)
+          })
+        } else {
+          allImages = imageData[selectedCategory.value] || []
         }
         
-        // 如果有搜索关键词，添加到参数中
+        // 应用搜索过滤
         if (searchKeyword.value.trim()) {
-          params.search = searchKeyword.value.trim()
+          const keyword = searchKeyword.value.toLowerCase()
+          allImages = allImages.filter(img => 
+            img.name.toLowerCase().includes(keyword)
+          )
         }
         
-        const response = await axios.get('/express/api/images', { params })
+        // 分页处理
+        totalImages.value = allImages.length
+        totalPages.value = Math.ceil(allImages.length / pageSize.value)
         
-        images.value = response.data.images
-        totalImages.value = response.data.total
-        totalPages.value = response.data.totalPages
+        const startIndex = (currentPage.value - 1) * pageSize.value
+        images.value = allImages.slice(startIndex, startIndex + pageSize.value)
+        
       } catch (error) {
         console.error('获取图片失败:', error)
         showNotification('获取图片失败，请稍后重试', 'error')
@@ -619,12 +626,13 @@ export default {
     }
 
     const getImageAccessUrl = (image) => {
-      // 在生产环境中使用绝对路径，开发环境中使用相对路径
-      if (process.env.NODE_ENV === 'production') {
-        return `${window.location.origin}${image.url}`
-      } else {
-        return `${window.location.origin}/${image.category}/${image.name}`
-      }
+      // 直接返回原始路径
+      return image.path
+    }
+    
+    const getFullImageUrl = (image) => {
+      // 用于复制链接功能
+      return window.location.origin + image.path
     }
 
     // 通知状态
@@ -647,7 +655,7 @@ export default {
 
     const copyImageUrl = async (image) => {
       try {
-        await navigator.clipboard.writeText(getImageAccessUrl(image))
+        await navigator.clipboard.writeText(getFullImageUrl(image))
         showNotification('链接已复制到剪贴板！', 'success')
       } catch (error) {
         console.error('复制失败:', error)
@@ -691,21 +699,11 @@ export default {
     }
 
     // 删除图片
-    const deleteImage = async (image) => {
+    const deleteImage = (image) => {
       if (!confirm(`确定要删除图片 "${image.name}" 吗？`)) {
         return
       }
-
-      try {
-        const response = await axios.delete(`/express/api/images/${image.category}/${image.name}`)
-        if (response.data.success) {
-          showNotification('图片删除成功！', 'success')
-          fetchImages() // 刷新图片列表
-        }
-      } catch (error) {
-        console.error('删除图片失败:', error)
-        showNotification(error.response?.data?.error || '删除图片失败', 'error')
-      }
+      showNotification('静态模式下无法删除图片', 'error')
     }
 
     // 生命周期

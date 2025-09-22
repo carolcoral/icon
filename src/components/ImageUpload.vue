@@ -122,7 +122,6 @@
 
 <script>
 import { ref, computed } from 'vue'
-import axios from 'axios'
 
 export default {
   name: 'ImageUpload',
@@ -189,63 +188,18 @@ export default {
       return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
     }
 
-    const createCategory = async () => {
+    const createCategory = () => {
       if (!newCategoryName.value.trim()) return
-      
-      try {
-        const response = await axios.post('/express/api/categories', {
-          name: newCategoryName.value.trim()
-        })
-        
-        if (response.data.success) {
-          emit('category-created', response.data.category)
-          selectedCategory.value = response.data.category
-          newCategoryName.value = ''
-          showNewCategoryInput.value = false
-        }
-      } catch (error) {
-        console.error('创建分类失败:', error)
-        alert(error.response?.data?.error || '创建分类失败')
-      }
+      alert('静态模式下无法创建分类')
+      newCategoryName.value = ''
+      showNewCategoryInput.value = false
     }
 
-    const uploadFiles = async () => {
-      if (selectedFiles.value.length === 0) return
-      
-      uploading.value = true
-      uploadedCount.value = 0
-      totalFiles.value = selectedFiles.value.length
-      
-      const uploadedImages = []
-      
-      for (const file of selectedFiles.value) {
-        try {
-          const formData = new FormData()
-          formData.append('image', file)
-          formData.append('category', selectedCategory.value)
-          
-          const response = await axios.post('/express/api/upload', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          })
-          
-          if (response.data.success) {
-            uploadedImages.push(response.data.image)
-          }
-        } catch (error) {
-          console.error('上传文件失败:', file.name, error)
-        }
-        
-        uploadedCount.value++
-      }
-      
+    const uploadFiles = () => {
+      alert('静态模式下无法上传图片')
       uploading.value = false
       selectedFiles.value = []
-      
-      if (uploadedImages.length > 0) {
-        emit('upload-success', uploadedImages)
-      }
+      emit('upload-success', [])
     }
 
     return {
