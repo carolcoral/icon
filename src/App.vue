@@ -156,17 +156,10 @@
                :style="{ animationDelay: `${index * 50}ms` }"
                @click="selectImage(image)">
             <div class="aspect-square flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg mb-3 overflow-hidden relative">
-              <!-- 加载占位符 -->
-              <div v-if="!imageLoaded[image.path]" class="absolute inset-0 flex items-center justify-center">
-                <div class="animate-spin rounded-full h-6 w-6 border-2 border-primary-500 border-t-transparent"></div>
-              </div>
-              
               <!-- 图片 -->
               <img :src="image.path" 
                    :alt="image.name" 
-                   class="max-w-full max-h-full object-contain card-image lazy-image"
-                   :class="{ 'loaded': imageLoaded[image.path], 'loading': !imageLoaded[image.path] }"
-                   @load="handleImageLoad(image.path)"
+                   class="max-w-full max-h-full object-contain card-image"
                    @error="handleImageError">
               
               <!-- 悬停遮罩 -->
@@ -407,7 +400,6 @@ export default {
     const totalImages = ref(0)
     const totalPages = ref(0)
     const selectedImage = ref(null)
-    const imageLoaded = ref({}) // 图片加载状态
     const searchSuggestions = ref([]) // 搜索建议
     const searchInput = ref(null) // 搜索输入框引用
 
@@ -473,7 +465,6 @@ export default {
 
     const fetchImages = () => {
       loading.value = true
-      resetImageLoadedState()
       
       try {
         // 获取当前分类的所有图片
@@ -667,19 +658,9 @@ export default {
       event.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yMCAyMEg0NFY0NEgyMFYyMFoiIHN0cm9rZT0iIzlDQTNBRiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTI4IDI4TDM2IDM2TDQwIDMyIiBzdHJva2U9IiM5Q0EzQUYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo='
     }
 
-    // 处理图片加载完成
-    const handleImageLoad = (imagePath) => {
-      imageLoaded.value[imagePath] = true
-    }
-
     // 获取显示名称（去掉扩展名）
     const getDisplayName = (filename) => {
       return filename.replace(/\.[^/.]+$/, '')
-    }
-
-    // 重置图片加载状态
-    const resetImageLoadedState = () => {
-      imageLoaded.value = {}
     }
 
     // 处理上传成功
@@ -747,9 +728,7 @@ export default {
       getImageAccessUrl,
       copyImageUrl,
       handleImageError,
-      handleImageLoad,
       getDisplayName,
-      imageLoaded,
       searchSuggestions,
       searchInput,
       selectSuggestion,
