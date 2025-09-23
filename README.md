@@ -2,6 +2,11 @@
 
 纯静态图标资源库，提供常用软件/服务的图标资源。
 
+
+[![使用 EdgeOne Pages 部署（国际版）](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?repository-url=https://github.com/carolcoral/icon)
+[![使用 EdgeOne Pages 部署（国内版）](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://console.cloud.tencent.com/edgeone/pages/new?repository-url=https://github.com/carolcoral/icon)
+
+
 ## 主要功能
 
 - 自动扫描分类图片资源
