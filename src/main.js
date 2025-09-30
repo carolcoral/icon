@@ -1,9 +1,21 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import './style.css'
 import App from './App.vue'
-import imageData from './assets/image-data.json'
+import router from './router'
 
-console.log('静态图片数据加载完成:', Object.keys(imageData).length + '个分类');
+const app = createApp(App)
+const pinia = createPinia()
 
-const app = createApp(App);
-app.mount('#app');
+// 注册Element Plus图标
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+
+app.use(pinia)
+app.use(router)
+app.use(ElementPlus)
+app.mount('#app')
