@@ -135,10 +135,10 @@
                   <span class="text-xs text-gray-500">昵称将在所有页面显示</span>
                 </template>
               </el-form-item>
-              <el-form-item label="邮箱">
-                <el-input v-model="profileForm.email" readonly />
+              <el-form-item label="邮箱" prop="email">
+                <el-input v-model="profileForm.email" placeholder="请输入邮箱" />
                 <template #help>
-                  <span class="text-xs text-gray-500">邮箱不可修改</span>
+                  <span class="text-xs text-gray-500">邮箱可以修改</span>
                 </template>
               </el-form-item>
               <el-form-item label="手机号" prop="phone">
@@ -462,6 +462,10 @@ const initImageDrag = () => {
 }
 
 const profileRules = {
+  email: [
+    { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+    { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' }
+  ],
   phone: [
     { required: false, message: '请输入手机号', trigger: 'blur' },
     { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号格式', trigger: 'blur' }
@@ -496,9 +500,10 @@ const updateProfile = async () => {
       return
     }
     
-    // 只发送允许修改的字段给后端
+    // 发送所有允许修改的字段给后端
     const updateData = {
       nickname: profileForm.nickname,
+      email: profileForm.email,
       phone: profileForm.phone
     }
     

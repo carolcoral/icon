@@ -42,7 +42,7 @@ router.get('/profile', authenticateToken, async (req, res) => {
     }
     
     // 获取存储统计
-    db.db.all('SELECT COUNT(*) as totalFiles, SUM(fileSize) as totalSize FROM images WHERE userId = ?', [userId], (err, statsResult) => {
+    db.db.all('SELECT COUNT(*) as totalFiles, SUM(file_size) as totalSize FROM images WHERE user_id = ?', [userId], (err, statsResult) => {
       const storageStats = statsResult && statsResult.length > 0 ? {
         totalFiles: statsResult[0].totalFiles || 0,
         totalSize: statsResult[0].totalSize || 0
@@ -144,6 +144,10 @@ router.post('/profile/avatar', authenticateToken, upload.single('file'), async (
 
 // 更新用户个人资料
 router.put('/profile', authenticateToken, [
+  body('email')
+    .optional()
+    .isEmail()
+    .withMessage('请输入有效的邮箱地址'),
   body('nickname')
     .optional()
     .isLength({ max: 50 })
@@ -162,9 +166,10 @@ router.put('/profile', authenticateToken, [
       });
     }
 
-    const { nickname, phone, avatar } = req.body;
+    const { email, nickname, phone, avatar } = req.body;
     const updates = {};
     
+    if (email !== undefined) updates.email = email;
     if (nickname !== undefined) updates.nickname = nickname;
     if (phone !== undefined) updates.phone = phone;
     if (avatar !== undefined) updates.avatar = avatar;
@@ -176,6 +181,10 @@ router.put('/profile', authenticateToken, [
     const setClause = [];
     const values = [];
     
+    if (email !== undefined) {
+      setClause.push('email = ?');
+      values.push(email);
+    }
     if (nickname !== undefined) {
       setClause.push('nickname = ?');
       values.push(nickname);
@@ -323,7 +332,7 @@ router.get('/stats', authenticateToken, async (req, res) => {
   const userId = req.user.id;
   
   // 获取存储统计
-  db.db.all('SELECT COUNT(*) as totalFiles, SUM(fileSize) as totalSize FROM images WHERE userId = ?', [userId], (err, storageResult) => {
+  db.db.all('SELECT COUNT(*) as totalFiles, SUM(file_size) as totalSize FROM images WHERE user_id = ?', [userId], (err, storageResult) => {
     if (err) {
       console.error('获取存储统计错误:', err);
       return res.status(500).json({ message: '获取存储统计失败' });
@@ -335,14 +344,14 @@ router.get('/stats', authenticateToken, async (req, res) => {
     } : { totalFiles: 0, totalSize: 0 };
     
     // 获取图片分类统计
-    db.db.all('SELECT category, COUNT(*) as count, SUM(fileSize) as totalSize FROM images WHERE userId = ? GROUP BY category ORDER BY count DESC', [userId], (err, categoryStats) => {
+    db.db.all('SELECT category, COUNT(*) as count, SUM(file_size) as totalSize FROM images WHERE user_id = ? GROUP BY category ORDER BY count DESC', [userId], (err, categoryStats) => {
       if (err) {
         console.error('获取分类统计错误:', err);
         return res.status(500).json({ message: '获取分类统计失败' });
       }
       
       // 获取最近上传的图片
-      db.db.all('SELECT filename, originalName, fileSize, category, createdAt FROM images WHERE userId = ? ORDER BY createdAt DESC LIMIT 5', [userId], (err, recentImages) => {
+      db.db.all('SELECT filename, original_name, file_size, category, created_at FROM images WHERE user_id = ? ORDER BY created_at DESC LIMIT 5', [userId], (err, recentImages) => {
         if (err) {
           console.error('获取最近图片错误:', err);
           return res.status(500).json({ message: '获取最近图片失败' });
@@ -525,7 +534,7 @@ router.delete('/admin/users/:id', authenticateToken, requireAdmin, async (req, r
     const userId = req.params.id;
     
     // 删除用户的所有图片
-    db.db.run('DELETE FROM images WHERE userId = ?', [userId], function(err) {
+    db.db.run('DELETE FROM images WHERE user_id = ?', [userId], function(err) {
       if (err) {
         console.error('删除用户图片错误:', err);
         return res.status(500).json({ message: '删除用户失败' });

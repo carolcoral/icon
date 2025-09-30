@@ -16,7 +16,7 @@ export const useAuthStore = defineStore('auth', () => {
         password: credentials.password
       }
       
-      const response = await fetch('http://localhost:3001/api/auth/login', {
+      const response = await fetch('http://localhost:3000/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ export const useAuthStore = defineStore('auth', () => {
   
   const register = async (userData) => {
     try {
-      const response = await fetch('http://localhost:3001/api/auth/register', {
+      const response = await fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -92,7 +92,7 @@ export const useAuthStore = defineStore('auth', () => {
   
   const updateProfile = async (profileData) => {
     try {
-      const response = await fetch('http://localhost:3001/api/users/profile', {
+      const response = await fetch('http://localhost:3000/api/users/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ export const useAuthStore = defineStore('auth', () => {
     if (!token.value) return false
     
     try {
-      const response = await fetch('http://localhost:3001/api/auth/verify', {
+      const response = await fetch('http://localhost:3000/api/auth/verify', {
         headers: {
           'Authorization': `Bearer ${token.value}`
         }
@@ -152,7 +152,7 @@ export const useAuthStore = defineStore('auth', () => {
     if (!token.value) return null
     
     try {
-      const response = await fetch('http://localhost:3001/api/auth/refresh', {
+      const response = await fetch('http://localhost:3000/api/auth/refresh', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token.value}`
