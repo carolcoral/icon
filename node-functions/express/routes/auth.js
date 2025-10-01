@@ -146,6 +146,7 @@ router.post('/login', [
         nickname: user.nickname,
         role: user.role,
         avatar: user.avatar,
+        storageRule: user.storageRule,
         storageUsed: user.storageUsed,
         storageLimit: user.storageLimit
       }

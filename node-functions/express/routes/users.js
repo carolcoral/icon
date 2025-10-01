@@ -4,6 +4,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs/promises';
 import sharp from 'sharp';
+import bcrypt from 'bcryptjs';
 import { authenticateToken, requireAdmin } from '../middleware/auth.js';
 import Database from '../database.js';
 
@@ -62,7 +63,7 @@ router.get('/profile', authenticateToken, async (req, res) => {
           corsWhitelist: corsWhitelist,
           storageUsed: user.storageUsed,
           storageLimit: user.storageLimit,
-          storageStats,
+          storageStats: storageStats,
           lastLogin: user.lastLogin,
           createdAt: user.createdAt
         }
@@ -96,20 +97,9 @@ router.post('/profile/avatar', authenticateToken, upload.single('file'), async (
     // 确保目录存在
     await fs.mkdir(path.dirname(fullAvatarPath), { recursive: true });
 
-    // 使用sharp处理图片：50x50圆形裁剪
-    const image = sharp(req.file.path);
-    
-    // 获取图片元数据
-    const metadata = await image.metadata();
-    
-    // 计算裁剪区域
-    const size = Math.min(metadata.width, metadata.height);
-    const left = Math.floor((metadata.width - size) / 2);
-    const top = Math.floor((metadata.height - size) / 2);
-    
-    // 裁剪并调整大小
-    await image
-      .extract({ left, top, width: size, height: size })
+    // 前端已经进行了圆形裁剪，后端直接保存图片
+    // 使用sharp调整大小为50x50像素
+    await sharp(req.file.path)
       .resize(50, 50)
       .png()
       .toFile(fullAvatarPath);
@@ -279,6 +269,68 @@ router.put('/storage-rule', authenticateToken, [
   } catch (error) {
     console.error('更新存储规则错误:', error);
     res.status(500).json({ message: '更新存储规则失败' });
+  }
+});
+
+// 修改密码
+router.post('/change-password', authenticateToken, [
+  body('currentPassword')
+    .notEmpty()
+    .withMessage('请输入当前密码'),
+  body('newPassword')
+    .isLength({ min: 6 })
+    .withMessage('新密码长度至少6位')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+    .withMessage('新密码必须包含大小写字母和数字')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ 
+        message: '输入验证失败', 
+        errors: errors.array() 
+      });
+    }
+
+    const { currentPassword, newPassword } = req.body;
+    const db = new Database();
+    const userId = req.user.id;
+    
+    // 获取用户完整信息
+    db.db.get('SELECT * FROM users WHERE id = ?', [userId], async (err, userData) => {
+      if (err) {
+        console.error('获取用户信息错误:', err);
+        return res.status(500).json({ message: '修改密码失败' });
+      }
+      
+      if (!userData) {
+        return res.status(404).json({ message: '用户不存在' });
+      }
+      
+      // 使用bcrypt验证当前密码
+      const isCurrentPasswordValid = await bcrypt.compare(currentPassword, userData.password);
+      if (!isCurrentPasswordValid) {
+        return res.status(400).json({ message: '当前密码不正确' });
+      }
+      
+      // 更新密码并进行加密
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      
+      // 保存加密后的密码到数据库
+      db.db.run('UPDATE users SET password = ?, updatedAt = ? WHERE id = ?', 
+        [hashedPassword, new Date().toISOString(), userId], function(err) {
+        if (err) {
+          console.error('更新密码错误:', err);
+          return res.status(500).json({ message: '修改密码失败' });
+        }
+        
+        res.json({ message: '密码修改成功' });
+      });
+    });
+
+  } catch (error) {
+    console.error('修改密码错误:', error);
+    res.status(500).json({ message: '修改密码失败' });
   }
 });
 

@@ -165,21 +165,22 @@
                 <p class="text-sm text-gray-600 mt-2">
                   选择图片存储时的路径生成规则，影响文件组织结构
                 </p>
+                <el-button type="primary" class="mt-4" @click="saveStorageRule">保存存储规则</el-button>
               </div>
               
               <div>
                 <h4 class="font-medium mb-3">存储统计</h4>
                 <div class="grid grid-cols-3 gap-4 text-center">
                   <div class="p-4 bg-blue-50 rounded-lg">
-                    <div class="text-2xl font-bold text-blue-600">156</div>
+                    <div class="text-2xl font-bold text-blue-600">{{ storageStats.totalFiles || 0 }}</div>
                     <div class="text-sm text-gray-600">图片数量</div>
                   </div>
                   <div class="p-4 bg-green-50 rounded-lg">
-                    <div class="text-2xl font-bold text-green-600">45.2MB</div>
+                    <div class="text-2xl font-bold text-green-600">{{ formatFileSize(storageStats.totalSize || 0) }}</div>
                     <div class="text-sm text-gray-600">存储空间</div>
                   </div>
                   <div class="p-4 bg-purple-50 rounded-lg">
-                    <div class="text-2xl font-bold text-purple-600">30天</div>
+                    <div class="text-2xl font-bold text-purple-600">{{ accountExpiryDays }}</div>
                     <div class="text-sm text-gray-600">账户有效期</div>
                   </div>
                 </div>
@@ -193,7 +194,7 @@
             <div class="space-y-6">
               <div>
                 <h4 class="font-medium mb-3">修改密码</h4>
-                <el-form :model="passwordForm" :rules="passwordRules" ref="passwordForm" class="max-w-md">
+                <el-form :model="passwordForm" :rules="passwordRules" ref="passwordFormRef" class="max-w-md">
                   <el-form-item prop="currentPassword">
                     <el-input v-model="passwordForm.currentPassword" type="password" placeholder="当前密码" show-password />
                   </el-form-item>
@@ -270,6 +271,8 @@ const profileFormRef = ref()
 const storageRule = ref('uuid')
 const corsWhitelist = ref(['https://example.com', 'https://blog.example.com'])
 const newDomain = ref('')
+const storageStats = ref({ totalFiles: 0, totalSize: 0 })
+const accountExpiryDays = ref(0)
 
 const passwordForm = reactive({
   currentPassword: '',
@@ -277,7 +280,7 @@ const passwordForm = reactive({
   confirmPassword: ''
 })
 
-
+const passwordFormRef = ref()
 
 const beforeAvatarUpload = (file) => {
   const isJPGOrPNG = file.type === 'image/jpeg' || file.type === 'image/png'
@@ -481,6 +484,8 @@ const passwordRules = {
 onMounted(() => {
   if (authStore.currentUser) {
     Object.assign(profileForm, authStore.currentUser)
+    storageRule.value = authStore.currentUser.storageRule || 'uuid'
+    loadStorageStats()
   }
 })
 
@@ -514,8 +519,46 @@ const updateProfile = async () => {
   }
 }
 
-const changePassword = () => {
-  ElMessage.info('密码修改功能开发中')
+const changePassword = async () => {
+  try {
+    // 验证表单
+    if (!await passwordFormRef.value?.validate()) {
+      return
+    }
+    
+    // 检查新密码和确认密码是否一致
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      ElMessage.error('新密码和确认密码不一致')
+      return
+    }
+    
+    // 发送修改密码请求
+    const response = await fetch('/api/users/change-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authStore.token}`
+      },
+      body: JSON.stringify({
+        currentPassword: passwordForm.currentPassword,
+        newPassword: passwordForm.newPassword
+      })
+    })
+    
+    const result = await response.json()
+    if (response.ok) {
+      ElMessage.success('密码修改成功')
+      // 清空表单
+      passwordForm.currentPassword = ''
+      passwordForm.newPassword = ''
+      passwordForm.confirmPassword = ''
+    } else {
+      ElMessage.error(result.message || '密码修改失败')
+    }
+  } catch (error) {
+    console.error('修改密码失败:', error)
+    ElMessage.error('密码修改失败')
+  }
 }
 
 const addDomain = () => {
@@ -543,6 +586,71 @@ const handleLogout = async () => {
   } catch (error) {
     // 用户取消操作
   }
+}
+
+// 保存存储规则
+const saveStorageRule = async () => {
+  try {
+    const response = await fetch('/api/users/storage-rule', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authStore.token}`
+      },
+      body: JSON.stringify({ storageRule: storageRule.value })
+    })
+
+    const result = await response.json()
+    if (response.ok) {
+      ElMessage.success('存储规则更新成功')
+      // 更新当前用户的存储规则
+      authStore.currentUser.storageRule = storageRule.value
+    } else {
+      ElMessage.error(result.message || '存储规则更新失败')
+    }
+  } catch (error) {
+    console.error('保存存储规则失败:', error)
+    ElMessage.error('存储规则更新失败')
+  }
+}
+
+// 加载存储统计信息
+const loadStorageStats = async () => {
+  try {
+    const response = await fetch('/api/users/stats', {
+      headers: {
+        'Authorization': `Bearer ${authStore.token}`
+      }
+    })
+
+    if (response.ok) {
+      const result = await response.json()
+      storageStats.value = result.storage || { totalFiles: 0, totalSize: 0 }
+      
+      // 计算账户有效期天数
+      if (authStore.currentUser?.accountExpiry) {
+        const expiryDate = new Date(authStore.currentUser.accountExpiry)
+        const today = new Date()
+        const diffTime = expiryDate.getTime() - today.getTime()
+        const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+        // 如果有效期大于10年，显示为"长期"
+        accountExpiryDays.value = days > 3650 ? '长期' : days
+      } else {
+        accountExpiryDays.value = '长期' // 无限期
+      }
+    }
+  } catch (error) {
+    console.error('加载存储统计失败:', error)
+  }
+}
+
+// 格式化文件大小
+const formatFileSize = (bytes) => {
+  if (bytes === 0) return '0 B'
+  const k = 1024
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
 </script>
 
